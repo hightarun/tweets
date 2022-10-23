@@ -70,8 +70,9 @@ public class AuthenticationController {
     }
 
     @GetMapping(value="/{username}/forgot")
-    public String forgotPassword(@PathVariable("username") String email){
-
+    public String forgotPassword(@PathVariable("username") String username){
+        
+        return null;
     }
 
     private Authentication authenticate(String username , String password) throws AuthorizationException {
