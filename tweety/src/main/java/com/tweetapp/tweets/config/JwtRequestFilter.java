@@ -1,6 +1,6 @@
 package com.tweetapp.tweets.config;
 
-import com.tweetapp.tweets.service.authentication.JwtUserDetailsService;
+import com.tweetapp.tweets.service.authentication.JwtUserDetailsServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.io.IOException;
 @Slf4j
 public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
-    private JwtUserDetailsService jwtUserDetailsService;
+    private JwtUserDetailsServiceImpl jwtUserDetailsService;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 

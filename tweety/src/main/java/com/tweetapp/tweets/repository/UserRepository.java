@@ -1,4 +1,4 @@
-package com.tweetapp.tweets.repository.authentication;
+package com.tweetapp.tweets.repository;
 
 import com.tweetapp.tweets.model.authentication.User;
 import org.springframework.data.jpa.repository.JpaRepository;

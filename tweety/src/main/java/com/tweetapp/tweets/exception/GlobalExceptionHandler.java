@@ -1,6 +1,13 @@
 package com.tweetapp.tweets.exception;
 
 import com.tweetapp.tweets.exception.authentication.AuthorizationException;
+import com.tweetapp.tweets.exception.authentication.UsernameAlreadyExistsException;
+import com.tweetapp.tweets.exception.authentication.UsernameNotExistsException;
+import com.tweetapp.tweets.exception.comment.CommentActionNotAuthorized;
+import com.tweetapp.tweets.exception.comment.CommentNotFoundException;
+import com.tweetapp.tweets.exception.like.AlreadyLikedException;
+import com.tweetapp.tweets.exception.tweet.TweetNotAuthorizedException;
+import com.tweetapp.tweets.exception.tweet.TweetNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,12 +30,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     static final String MESSAGE = "Message";
 
     @Override
-    public ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request){
+    public ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         Map<String, String> errorMap = new HashMap<>();
-        errorMap.put(MESSAGE,ex.getMessage());
+        errorMap.put(MESSAGE, ex.getMessage());
         ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);
         log.error(ex.getMessage());
-        return new ResponseEntity<>(exceptionDetails,status);
+        return new ResponseEntity<>(exceptionDetails, status);
     }
 
     @Override
@@ -41,20 +48,84 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleGlobalException(Exception ex , WebRequest request){
+    public ResponseEntity<Object> handleGlobalException(Exception ex, WebRequest request) {
         Map<String, String> errorMap = new HashMap<>();
-        errorMap.put(MESSAGE,ex.getMessage());
-        ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now() , errorMap);
+        errorMap.put(MESSAGE, ex.getMessage());
+        ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);
         log.error(ex.getMessage());
-        return new ResponseEntity<>(exceptionDetails,HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(AuthorizationException.class)
-    public ResponseEntity<Object> handleGlobalException(AuthorizationException ex , WebRequest request){
+    public ResponseEntity<Object> handleGlobalException(AuthorizationException ex, WebRequest request) {
         Map<String, String> errorMap = new HashMap<>();
-        errorMap.put(MESSAGE,ex.getMessage());
-        ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now() , errorMap);
+        errorMap.put(MESSAGE, ex.getMessage());
+        ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);
         log.error(ex.getMessage());
-        return new ResponseEntity<>(exceptionDetails,HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
     }
+
+    @ExceptionHandler(UsernameNotExistsException.class)
+    public ResponseEntity<Object> handleGlobalException(UsernameNotExistsException ex, WebRequest request) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put(MESSAGE, ex.getMessage());
+        ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);
+        log.error(ex.getMessage());
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UsernameAlreadyExistsException.class)
+    public ResponseEntity<Object> handleGlobalException(UsernameAlreadyExistsException ex, WebRequest request) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put(MESSAGE, ex.getMessage());
+        ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);
+        log.error(ex.getMessage());
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(TweetNotFoundException.class)
+    public ResponseEntity<Object> handleGlobalException(TweetNotFoundException ex, WebRequest request) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put(MESSAGE, ex.getMessage());
+        ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);
+        log.error(ex.getMessage());
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(TweetNotAuthorizedException.class)
+    public ResponseEntity<Object> handleGlobalException(TweetNotAuthorizedException ex, WebRequest request) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put(MESSAGE, ex.getMessage());
+        ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);
+        log.error(ex.getMessage());
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(AlreadyLikedException.class)
+    public ResponseEntity<Object> handleGlobalException(AlreadyLikedException ex, WebRequest request) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put(MESSAGE, ex.getMessage());
+        ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);
+        log.error(ex.getMessage());
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(CommentNotFoundException.class)
+    public ResponseEntity<Object> handleGlobalException(CommentNotFoundException ex, WebRequest request) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put(MESSAGE, ex.getMessage());
+        ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);
+        log.error(ex.getMessage());
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(CommentActionNotAuthorized.class)
+    public ResponseEntity<Object> handleGlobalException(CommentActionNotAuthorized ex, WebRequest request) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put(MESSAGE, ex.getMessage());
+        ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);
+        log.error(ex.getMessage());
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
+    }
+
 }
