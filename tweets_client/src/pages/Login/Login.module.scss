@@ -1,0 +1,84 @@
+.container {
+  padding: 0;
+  margin: 0;
+  height: 92vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: cadetblue;
+    padding: 5%;
+    min-width: 60%;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px 0 grey;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  .wel_text {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+  }
+  .input {
+    height: 3em;
+    border-radius: 4px;
+    margin: 10px 0;
+    width: 80%;
+    border: 1px solid grey !important;
+    font-size: 1rem;
+    padding: 0px 16px;
+    &:focus {
+      border: 1px solid pink !important;
+      background-color: cadetblue;
+      outline: 0;
+    }
+  }
+
+  .button {
+    background-color: pink;
+    color: black;
+    border-color: pink;
+    cursor: pointer;
+    width: 80px;
+    height: 3em;
+    border-radius: 4px;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 5vh;
+    &:hover {
+      box-shadow: 0 1px 2px 0 grey;
+    }
+    &:focus {
+      outline: none;
+    }
+    span {
+      font-size: 1rem;
+      font-weight: 2px;
+      letter-spacing: 1.8px;
+    }
+  }
+}
+
+@media only screen and (max-width: 809px) {
+  .wel_text {
+    font-size: 25px;
+  }
+  .wrapper {
+    width: 90%;
+  }
+}
+@media only screen and (max-width: 992px) {
+  .wel_text {
+    font-size: 1.7rem;
+  }
+}
+@media (max-width: 1200px) {
+  .wel_text {
+    font-size: 2rem;
+  }
+}

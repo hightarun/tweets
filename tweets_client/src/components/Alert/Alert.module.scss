@@ -1,0 +1,77 @@
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0.5;
+    -webkit-transform: translateX(150px);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0.5;
+    transform: translateX(150px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.container {
+  animation: fadeIn 2s;
+  transition: all 0.4s ease-in-out;
+  position: fixed;
+  top: 100px;
+  right: 3%;
+  width: 250px;
+  z-index: 1010;
+  .box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    .close {
+      font-size: 1.3rem;
+      right: 0;
+      position: absolute;
+      color: white;
+      .icon {
+        cursor: pointer;
+      }
+    }
+    .title {
+      margin-top: 10px;
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      p {
+        font-style: italic;
+        font-size: 1rem;
+        font-weight: bold;
+      }
+    }
+    .msg {
+      p {
+        font-size: 1.05rem;
+      }
+    }
+  }
+  .danger {
+    background-color: red;
+    color: white;
+  }
+  .success {
+    background-color: green;
+    color: white;
+  }
+  .notification {
+    background-color: orange;
+    color: black;
+  }
+}
