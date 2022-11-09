@@ -21,18 +21,17 @@ import java.util.List;
 @Slf4j
 public class LikeServiceImpl implements LikeService {
 
+    private final UserHelper userHelper;
+    private final UserRepository userRepository;
+    private final TweetRepository tweetRepository;
+    private final LikeRepository likeRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserHelper userHelper;
-
-    @Autowired
-    private TweetRepository tweetRepository;
-
-    @Autowired
-    private LikeRepository likeRepository;
+    public LikeServiceImpl(UserRepository userRepository, UserHelper userHelper, TweetRepository tweetRepository, LikeRepository likeRepository) {
+        this.userHelper = userHelper;
+        this.userRepository = userRepository;
+        this.tweetRepository = tweetRepository;
+        this.likeRepository = likeRepository;
+    }
 
     @Override
     public String addLike(Long tweetId, String token) throws TweetNotFoundException, AlreadyLikedException {

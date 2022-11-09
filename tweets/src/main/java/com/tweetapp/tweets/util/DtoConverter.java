@@ -24,14 +24,19 @@ import java.util.stream.Collectors;
 @Slf4j
 public class DtoConverter {
 
+    private final UserRepository userRepository;
+    private final TweetRepository tweetRepository;
+    private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
+
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private TweetRepository tweetRepository;
-    @Autowired
-    private CommentRepository commentRepository;
-    @Autowired
-    private LikeRepository likeRepository;
+    public DtoConverter(UserRepository userRepository, TweetRepository tweetRepository, CommentRepository commentRepository, LikeRepository likeRepository) {
+        this.userRepository = userRepository;
+        this.tweetRepository = tweetRepository;
+        this.commentRepository = commentRepository;
+        this.likeRepository = likeRepository;
+    }
+
 
     //Convert to tweet response DTO
     public TweetResponse convertToTweetResponse(Tweet tweet) {

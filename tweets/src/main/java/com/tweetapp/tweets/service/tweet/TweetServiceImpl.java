@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,23 +27,21 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TweetServiceImpl implements TweetService {
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final TweetRepository tweetRepository;
+    private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
+    private final UserHelper userHelper;
+    private final DtoConverter dtoConverter;
 
-    @Autowired
-    TweetRepository tweetRepository;
-
-    @Autowired
-    CommentRepository commentRepository;
-
-    @Autowired
-    LikeRepository likeRepository;
-
-    @Autowired
-    private UserHelper userHelper;
-
-    @Autowired
-    private DtoConverter dtoConverter;
+    public TweetServiceImpl(UserRepository userRepository, TweetRepository tweetRepository, CommentRepository commentRepository, LikeRepository likeRepository, UserHelper userHelper, DtoConverter dtoConverter) {
+        this.userRepository = userRepository;
+        this.tweetRepository = tweetRepository;
+        this.commentRepository = commentRepository;
+        this.likeRepository = likeRepository;
+        this.userHelper = userHelper;
+        this.dtoConverter = dtoConverter;
+    }
 
     @Override
     public String addTweets(TweetRequest tweetRequest, String token) {

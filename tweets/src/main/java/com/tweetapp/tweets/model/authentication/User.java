@@ -43,7 +43,4 @@ public class User implements Serializable {
     @Column(name = "contact_number", nullable = false)
     private String contactNumber;
 
-    @Column(name = "reset_password_code")
-    private String resetPasswordCode = null;
-
 }

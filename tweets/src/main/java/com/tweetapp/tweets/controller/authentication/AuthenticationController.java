@@ -15,15 +15,10 @@ import io.jsonwebtoken.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -31,14 +26,17 @@ import java.util.List;
 @CrossOrigin
 public class AuthenticationController {
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final JwtUserDetailsServiceImpl jwtUserDetailsService;
+    private final AuthenticationHelper authenticationHelper;
 
     @Autowired
-    private JwtUserDetailsServiceImpl jwtUserDetailsService;
+    public AuthenticationController(JwtTokenUtil jwtTokenUtil, JwtUserDetailsServiceImpl jwtUserDetailsService, AuthenticationHelper authenticationHelper) {
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.jwtUserDetailsService = jwtUserDetailsService;
+        this.authenticationHelper = authenticationHelper;
+    }
 
-    @Autowired
-    private AuthenticationHelper authenticationHelper;
 
     @PostMapping(value = "/register")
     public String registerUser(@RequestBody @Valid JwtRegisterRequest jwtRegisterRequest) throws UsernameAlreadyExistsException {

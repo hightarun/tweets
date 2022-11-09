@@ -6,7 +6,6 @@ import com.tweetapp.tweets.exception.tweet.TweetNotFoundException;
 import com.tweetapp.tweets.model.authentication.User;
 import com.tweetapp.tweets.model.comment.Comment;
 import com.tweetapp.tweets.model.comment.CommentRequest;
-import com.tweetapp.tweets.model.like.Like;
 import com.tweetapp.tweets.model.tweet.Tweet;
 import com.tweetapp.tweets.repository.CommentRepository;
 import com.tweetapp.tweets.repository.TweetRepository;
@@ -17,23 +16,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @Slf4j
 public class CommentServiceImpl implements CommentService {
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final TweetRepository tweetRepository;
+    private final CommentRepository commentRepository;
+    private final UserHelper userHelper;
 
     @Autowired
-    TweetRepository tweetRepository;
-
-    @Autowired
-    CommentRepository commentRepository;
-
-    @Autowired
-    UserHelper userHelper;
+    public CommentServiceImpl(UserRepository userRepository, TweetRepository tweetRepository, CommentRepository commentRepository, UserHelper userHelper) {
+        this.userRepository = userRepository;
+        this.tweetRepository = tweetRepository;
+        this.commentRepository = commentRepository;
+        this.userHelper = userHelper;
+    }
 
     @Override
     public String addComment(CommentRequest commentRequest, Long tweetId, String token) throws TweetNotFoundException {

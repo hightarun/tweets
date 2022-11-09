@@ -14,8 +14,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class AuthenticationHelper {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+
+    public AuthenticationHelper(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
 
     public Authentication authenticate(String username, String password) throws AuthorizationException {
         try {

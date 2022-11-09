@@ -9,6 +9,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,28 +20,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    @Autowired
-    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtRequestFilter jwtRequestFilter;
 
     @Autowired
-    private JwtUserDetailsServiceImpl jwtUserDetailsService;
+    public WebSecurityConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, JwtRequestFilter jwtRequestFilter) {
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+        this.jwtRequestFilter = jwtRequestFilter;
+    }
 
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
-//    @Bean
-//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-//        return authenticationConfiguration.getAuthenticationManager();
-//    }
-
-// now authentication manager automatically detects  bcrypt bean
+    // now authentication manager automatically detects  bcrypt bean
     @Bean
     public AuthenticationManager authManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, JwtUserDetailsServiceImpl jwtUserDetailsService)
             throws Exception {
@@ -52,12 +42,11 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain configure(HttpSecurity http ) throws  Exception {
+    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         return http
-                .csrf(csrf -> csrf.disable())
-                .authorizeRequests(auth -> {
-                    auth.antMatchers("/register","/login","/**").permitAll().anyRequest().authenticated().and();
-                })
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeRequests(auth ->
+                        auth.antMatchers("/register", "/login", "/**").permitAll().anyRequest().authenticated().and())
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()

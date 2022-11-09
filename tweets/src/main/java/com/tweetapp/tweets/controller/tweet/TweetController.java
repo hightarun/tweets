@@ -1,18 +1,15 @@
 package com.tweetapp.tweets.controller.tweet;
 
-import com.tweetapp.tweets.config.JwtTokenUtil;
 import com.tweetapp.tweets.controller.authentication.AuthenticationController;
 import com.tweetapp.tweets.exception.authentication.AuthorizationException;
 import com.tweetapp.tweets.exception.authentication.UsernameNotExistsException;
 import com.tweetapp.tweets.exception.tweet.TweetNotAuthorizedException;
 import com.tweetapp.tweets.exception.tweet.TweetNotFoundException;
-import com.tweetapp.tweets.model.tweet.Tweet;
 import com.tweetapp.tweets.model.tweet.TweetRequest;
 import com.tweetapp.tweets.model.tweet.TweetResponse;
 import com.tweetapp.tweets.service.tweet.TweetServiceImpl;
 import com.tweetapp.tweets.util.UserHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,18 +20,16 @@ import java.util.List;
 public class TweetController {
 
     static final String UNAUTHORIZED = "UNAUTHORIZED_REQUEST";
+    private final AuthenticationController authenticationController;
+    private final UserHelper userHelper;
+    private final TweetServiceImpl tweetService;
 
     @Autowired
-    private AuthenticationController authenticationController;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    private TweetServiceImpl tweetService;
-
-    @Autowired
-    private UserHelper userHelper;
+    public TweetController(AuthenticationController authenticationController, TweetServiceImpl tweetService, UserHelper userHelper) {
+        this.authenticationController = authenticationController;
+        this.tweetService = tweetService;
+        this.userHelper = userHelper;
+    }
 
     @PostMapping("/{username}/add")
     public String addTweet(@PathVariable("username") String username, @RequestBody @Valid TweetRequest tweetRequest, @RequestHeader(value = "Authorization", required = true) String requestTokenHeader) throws AuthorizationException {

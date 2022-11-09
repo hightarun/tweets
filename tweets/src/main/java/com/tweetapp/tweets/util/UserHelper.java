@@ -1,13 +1,8 @@
 package com.tweetapp.tweets.util;
 
 import com.tweetapp.tweets.config.JwtTokenUtil;
-import com.tweetapp.tweets.exception.authentication.AuthorizationException;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,9 +10,12 @@ import org.springframework.stereotype.Service;
 public class UserHelper {
 
     static final String UNAUTHORIZED = "UNAUTHORIZED_REQUEST";
+    private final JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    public UserHelper(JwtTokenUtil jwtTokenUtil) {
+        this.jwtTokenUtil = jwtTokenUtil;
+    }
 
     // Helper function to extract token from request header
     public String getTokenFromRequestHeader(String requestTokenHeader) {

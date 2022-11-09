@@ -26,17 +26,19 @@ import java.util.stream.Collectors;
 @Slf4j
 public class JwtUserDetailsServiceImpl implements UserDetailsService, JwtUserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final DtoConverter dtoConverter;
+    private final EmailSenderService emailSenderService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    public JwtUserDetailsServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, DtoConverter dtoConverter, EmailSenderService emailSenderService) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.dtoConverter = dtoConverter;
+        this.emailSenderService = emailSenderService;
+    }
 
-    @Autowired
-    private DtoConverter dtoConverter;
-
-    @Autowired
-    private EmailSenderService emailSenderService;
 
     public UserDetails loadUserByUsername(String loginId) {
         User user = userRepository.findByUsername(loginId);
