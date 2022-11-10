@@ -2,12 +2,8 @@ package com.tweetapp.tweets.controller.authentication;
 
 import com.tweetapp.tweets.config.JwtTokenUtil;
 import com.tweetapp.tweets.exception.authentication.AuthorizationException;
-import com.tweetapp.tweets.exception.authentication.UsernameAlreadyExistsException;
 import com.tweetapp.tweets.exception.authentication.UsernameNotExistsException;
-import com.tweetapp.tweets.model.authentication.JwtLoginRequest;
-import com.tweetapp.tweets.model.authentication.JwtRegisterRequest;
-import com.tweetapp.tweets.model.authentication.JwtResponse;
-import com.tweetapp.tweets.model.authentication.UserDetailsResponse;
+import com.tweetapp.tweets.model.authentication.*;
 import com.tweetapp.tweets.service.authentication.JwtUserDetailsServiceImpl;
 import com.tweetapp.tweets.util.AuthenticationHelper;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -39,7 +35,7 @@ public class AuthenticationController {
 
 
     @PostMapping(value = "/register")
-    public String registerUser(@RequestBody @Valid JwtRegisterRequest jwtRegisterRequest) throws UsernameAlreadyExistsException {
+    public String registerUser(@RequestBody @Valid JwtRegisterRequest jwtRegisterRequest) throws Exception {
         return jwtUserDetailsService.addUser(jwtRegisterRequest);
     }
 
@@ -54,31 +50,40 @@ public class AuthenticationController {
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
-    @PostMapping(value = "/authorize")
-    public boolean authorizeRequest(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader) {
+    @GetMapping(value = "/authorize")
+    public UserDetailsResponse authorizeRequest(@RequestHeader(value = "Authorization", required = true) String requestTokenHeader) {
         String jwtToken = null;
         String username = null;
+        UserDetailsResponse user = null;
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
                 if (Boolean.TRUE.equals(jwtTokenUtil.isTokenExpired(jwtToken))) {
-                    return false;
+                    return null;
                 }
-            } catch (IllegalArgumentException | ExpiredJwtException | SignatureException e) {
-                return false;
+                user = jwtUserDetailsService.searchUserByUsername(username);
+            } catch (IllegalArgumentException | ExpiredJwtException | SignatureException |
+                     UsernameNotExistsException e) {
+                throw new RuntimeException(e);
             }
         }
-        return username != null;
+        return user;
     }
 
+
     @GetMapping(value = "/{username}/forgot")
-    public String forgotPassword(@PathVariable("username") String username) throws UsernameNotExistsException {
+    public String forgotPassword(@PathVariable("username") String username) throws Exception {
         return jwtUserDetailsService.forgotPassword(username);
     }
 
+    @PostMapping(value = "/reset-password")
+    public String resetPassword(@RequestBody @Valid ResetPassword resetPassword) throws Exception {
+        return jwtUserDetailsService.resetPassword(resetPassword);
+    }
+
     @GetMapping("/users/all")
-    public List<UserDetailsResponse> getAllUsers() {
+    public List<UserDetailsResponse> getAllUsers() throws Exception {
         return jwtUserDetailsService.getAllUser();
     }
 

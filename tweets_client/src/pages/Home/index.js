@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import Layout from "../../components/Layout";
 
-import { authenticateToken } from "../../redux/actions/auth";
+import { loadUser } from "../../redux/actions/auth";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const Home = () => {
 
   // authenticate token
   useEffect(() => {
-    dispatch(authenticateToken());
+    dispatch(loadUser());
   }, [dispatch]);
 
   return (

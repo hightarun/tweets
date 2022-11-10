@@ -1,6 +1,7 @@
 package com.tweetapp.tweets.exception;
 
 import com.tweetapp.tweets.exception.authentication.AuthorizationException;
+import com.tweetapp.tweets.exception.authentication.InvalidResetCodeException;
 import com.tweetapp.tweets.exception.authentication.UsernameAlreadyExistsException;
 import com.tweetapp.tweets.exception.authentication.UsernameNotExistsException;
 import com.tweetapp.tweets.exception.comment.CommentActionNotAuthorized;
@@ -121,6 +122,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CommentActionNotAuthorized.class)
     public ResponseEntity<Object> handleGlobalException(CommentActionNotAuthorized ex, WebRequest request) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put(MESSAGE, ex.getMessage());
+        ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);
+        log.error(ex.getMessage());
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(InvalidResetCodeException.class)
+    public ResponseEntity<Object> handleGlobalException(InvalidResetCodeException ex, WebRequest request) {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put(MESSAGE, ex.getMessage());
         ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);

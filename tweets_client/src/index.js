@@ -12,6 +12,8 @@ import "./index.css";
 // page imports
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Users from "./pages/Users";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -22,6 +24,8 @@ root.render(
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+        <Route path="/users/:userid" element={<Users />} />
         <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>

@@ -70,6 +70,12 @@ const Login = () => {
             <button className={styles.button} value="login" type="submit">
               <span>Login</span>
             </button>
+            <button
+              className={styles.button}
+              onClick={() => navigate("/register")}
+            >
+              <span>Register</span>
+            </button>
           </form>
         </div>
       </div>

@@ -1,8 +1,6 @@
 package com.tweetapp.tweets.model.tweet;
 
 import com.tweetapp.tweets.model.authentication.User;
-import com.tweetapp.tweets.model.comment.Comment;
-import com.tweetapp.tweets.model.like.Like;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,9 +10,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -44,5 +39,5 @@ public class Tweet {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "update_time")
     private Date updateTime;
-    
+
 }

@@ -43,4 +43,7 @@ public class User implements Serializable {
     @Column(name = "contact_number", nullable = false)
     private String contactNumber;
 
+    @Column(name = "reset_code")
+    private String resetCode;
+
 }

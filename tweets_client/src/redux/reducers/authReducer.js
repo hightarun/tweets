@@ -3,6 +3,7 @@ import {
   AUTH_SUCCESS,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  USER_LOADED,
   LOGOUT,
 } from "../types";
 
@@ -11,10 +12,19 @@ const initialState = {
     typeof localStorage !== "undefined" ? localStorage.getItem("token") : null,
   isAuthenticated: false,
   loading: true,
+  user: null,
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
+    case USER_LOADED:
+      return {
+        ...state,
+        token: localStorage.getItem("token"),
+        isAuthenticated: true,
+        loading: false,
+        user: action.payload,
+      };
     case AUTH_SUCCESS:
       return {
         ...state,
