@@ -10,13 +10,11 @@ import com.tweetapp.tweets.util.EmailSenderService;
 import com.tweetapp.tweets.util.PasswordEncoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;

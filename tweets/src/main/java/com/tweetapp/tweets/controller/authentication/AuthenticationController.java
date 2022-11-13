@@ -71,7 +71,6 @@ public class AuthenticationController {
         return user;
     }
 
-
     @GetMapping(value = "/{username}/forgot")
     public String forgotPassword(@PathVariable("username") String username) throws Exception {
         return jwtUserDetailsService.forgotPassword(username);

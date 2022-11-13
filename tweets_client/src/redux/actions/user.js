@@ -15,6 +15,13 @@ export const getCurrentUser = (uname) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
+    const errors = err.response.data.errorMap; // errors array from backend
+
+    if (errors) {
+      Object.keys(errors).map((key, index) => {
+        return dispatch(setAlert(key, errors[key], "danger"));
+      });
+    }
     dispatch({
       type: USER_ERROR,
     });

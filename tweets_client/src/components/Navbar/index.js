@@ -13,6 +13,8 @@ const Navbar = () => {
     (state) => state.rootReducer.auth.isAuthenticated
   );
 
+  const user = useSelector((state) => state.rootReducer.auth.user);
+
   const logoutHandler = () => {
     dispatch(logout());
     navigate("/login");
@@ -22,11 +24,18 @@ const Navbar = () => {
     navigate("/");
   };
 
+  const profileHandler = () => {
+    user && navigate(`/users/${user.username}`);
+  };
+
   // navbar links when logged in.
   const authLinks = (
     <div className={styles.menu}>
       <div onClick={homeHandler}>
         <p>Home</p>
+      </div>
+      <div onClick={profileHandler}>
+        <p>Profile</p>
       </div>
       <div onClick={logoutHandler}>
         <p>Logout</p>
