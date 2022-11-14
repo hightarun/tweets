@@ -40,7 +40,7 @@ public class CommentServiceImpl implements CommentService {
         Comment newComment = new Comment();
         newComment.setUser(loggedInUser);
         newComment.setTweet(tweet);
-        newComment.setComment(commentRequest.getComment());
+        newComment.setContent(commentRequest.getContent());
         commentRepository.save(newComment);
         log.info("Commented successfully");
         return "Successfully commented";
@@ -52,7 +52,7 @@ public class CommentServiceImpl implements CommentService {
         Comment commentedTweet = commentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException("Comment not found with id " + commentId));
         User commentUser = userRepository.findById(commentedTweet.getUser().getId()).orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
 
-        if (commentUser.getId() != loggedInUser.getId()) {
+        if (commentUser.getId().equals(loggedInUser.getId())) {
             throw new CommentActionNotAuthorized("Unauthorized to delete the comment");
         }
         commentRepository.delete(commentedTweet);

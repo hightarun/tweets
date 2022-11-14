@@ -101,12 +101,12 @@ public class TweetServiceImpl implements TweetService {
         if (user == null) {
             throw new UsernameNotFoundException("User with username " + username + " does not exists");
         }
-        return tweetRepository.findTweetsByUser(user.getId()).stream().map(tweet -> dtoConverter.convertToTweetResponse(tweet)).collect(Collectors.toList());
+        return tweetRepository.findTweetsByUser(user.getId()).stream().map(dtoConverter::convertToTweetResponse).collect(Collectors.toList());
     }
 
     @Override
     public List<TweetResponse> getAllTweet() {
-        return tweetRepository.findAll().stream().map(tweet -> dtoConverter.convertToTweetResponse(tweet)).collect(Collectors.toList());
+        return tweetRepository.findAll().stream().map(dtoConverter::convertToTweetResponse).collect(Collectors.toList());
     }
 
 }

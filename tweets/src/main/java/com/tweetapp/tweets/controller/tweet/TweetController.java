@@ -1,6 +1,5 @@
 package com.tweetapp.tweets.controller.tweet;
 
-import com.tweetapp.tweets.controller.authentication.AuthenticationController;
 import com.tweetapp.tweets.exception.authentication.AuthorizationException;
 import com.tweetapp.tweets.exception.authentication.UsernameNotExistsException;
 import com.tweetapp.tweets.exception.tweet.TweetNotAuthorizedException;
@@ -21,15 +20,15 @@ import java.util.List;
 public class TweetController {
 
     static final String UNAUTHORIZED = "UNAUTHORIZED_REQUEST";
-    private final AuthenticationController authenticationController;
+
     private final UserHelper userHelper;
 
     private final AuthenticationHelper authenticationHelper;
     private final TweetServiceImpl tweetService;
 
     @Autowired
-    public TweetController(AuthenticationController authenticationController, TweetServiceImpl tweetService, UserHelper userHelper, AuthenticationHelper authenticationHelper) {
-        this.authenticationController = authenticationController;
+    public TweetController(TweetServiceImpl tweetService, UserHelper userHelper, AuthenticationHelper authenticationHelper) {
+
         this.tweetService = tweetService;
         this.userHelper = userHelper;
         this.authenticationHelper = authenticationHelper;

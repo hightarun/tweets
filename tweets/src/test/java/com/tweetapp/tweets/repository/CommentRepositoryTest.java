@@ -23,7 +23,7 @@ public class CommentRepositoryTest {
         User u = new User(1L, "Tarun", "Bisht", "tarun@gmail.com", "hightarun", "123456789", "8929409364", null);
         Comment comment = new Comment();
         comment.setUser(u);
-        comment.setComment("amazing!");
+        comment.setContent("amazing!");
         List<Comment> comments = new ArrayList<>();
         comments.add(comment);
 

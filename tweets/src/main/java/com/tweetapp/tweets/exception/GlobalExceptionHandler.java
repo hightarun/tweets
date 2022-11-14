@@ -138,4 +138,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(TryCatchException.class)
+    public ResponseEntity<Object> handleGlobalException(TryCatchException ex, WebRequest request) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put(MESSAGE, ex.getMessage());
+        ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);
+        log.error(ex.getMessage());
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
+    }
+
 }

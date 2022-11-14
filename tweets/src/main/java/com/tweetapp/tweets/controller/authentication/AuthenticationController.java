@@ -65,7 +65,7 @@ public class AuthenticationController {
                 user = jwtUserDetailsService.searchUserByUsername(username);
             } catch (IllegalArgumentException | ExpiredJwtException | SignatureException |
                      UsernameNotExistsException e) {
-                throw new RuntimeException(e);
+                throw new IllegalArgumentException(e);
             }
         }
         return user;

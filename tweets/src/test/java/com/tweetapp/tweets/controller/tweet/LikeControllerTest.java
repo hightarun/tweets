@@ -10,17 +10,15 @@ import org.mockito.Mockito;
 public class LikeControllerTest {
 
     private LikeController likeController;
-    private AuthenticationController authenticationController;
     private LikeServiceImpl likeService;
     private UserHelper userHelper;
     private AuthenticationHelper authenticationHelper;
 
     @BeforeEach
     void setUp() {
-        authenticationController = Mockito.mock(AuthenticationController.class);
         likeService = Mockito.mock(LikeServiceImpl.class);
         userHelper = Mockito.mock(UserHelper.class);
         authenticationHelper = Mockito.mock(AuthenticationHelper.class);
-        likeController = new LikeController(authenticationController, likeService, userHelper, authenticationHelper);
+        likeController = new LikeController(likeService, userHelper, authenticationHelper);
     }
 }

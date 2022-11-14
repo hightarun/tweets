@@ -39,7 +39,7 @@ public class LikeServiceImpl implements LikeService {
         Tweet tweet = tweetRepository.findById(tweetId).orElseThrow(() -> new TweetNotFoundException("Tweet with id " + tweetId + " does not exists"));
         List<Like> likeTweetId = likeRepository.findLikeByTweetId(tweetId);
         for (Like l : likeTweetId) {
-            if (l.getUser().getId() == loggedInUser.getId()) {
+            if (l.getUser().getId().equals(loggedInUser.getId())) {
                 throw new AlreadyLikedException("Cannot like twice");
             }
         }
@@ -57,7 +57,7 @@ public class LikeServiceImpl implements LikeService {
         Tweet tweet = tweetRepository.findById(tweetId).orElseThrow(() -> new TweetNotFoundException("Tweet with id " + tweetId + " does not exists"));
         List<Like> likedTweet = likeRepository.findLikeByTweetId(tweetId);
         for (Like l : likedTweet) {
-            if (l.getUser().getId() == loggedInUser.getId()) {
+            if (l.getUser().getId().equals(loggedInUser.getId())) {
                 likeRepository.delete(l);
                 log.info("Unliked");
                 return ("Unliked");

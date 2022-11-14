@@ -1,7 +1,5 @@
 package com.tweetapp.tweets.controller.tweet;
 
-
-import com.tweetapp.tweets.controller.authentication.AuthenticationController;
 import com.tweetapp.tweets.exception.authentication.AuthorizationException;
 import com.tweetapp.tweets.exception.comment.CommentActionNotAuthorized;
 import com.tweetapp.tweets.exception.comment.CommentNotFoundException;
@@ -19,14 +17,12 @@ import javax.validation.Valid;
 @CrossOrigin
 public class CommentController {
     static final String UNAUTHORIZED = "UNAUTHORIZED_REQUEST";
-    private final AuthenticationController authenticationController;
     private final CommentServiceImpl commentService;
     private final UserHelper userHelper;
     private final AuthenticationHelper authenticationHelper;
 
     @Autowired
-    public CommentController(AuthenticationController authenticationController, CommentServiceImpl commentService, UserHelper userHelper, AuthenticationHelper authenticationHelper) {
-        this.authenticationController = authenticationController;
+    public CommentController(CommentServiceImpl commentService, UserHelper userHelper, AuthenticationHelper authenticationHelper) {
         this.commentService = commentService;
         this.userHelper = userHelper;
         this.authenticationHelper = authenticationHelper;
@@ -42,7 +38,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{username}/reply/{id}")
-    public String deleteComment(@PathVariable("username") String username, @PathVariable("id") Long tweetId, @RequestHeader(value = "Authorization", required = true) String requestTokenHeader) throws AuthorizationException, TweetNotFoundException, CommentActionNotAuthorized, CommentNotFoundException {
+    public String deleteComment(@PathVariable("username") String username, @PathVariable("id") Long tweetId, @RequestHeader(value = "Authorization", required = true) String requestTokenHeader) throws AuthorizationException, CommentActionNotAuthorized, CommentNotFoundException {
         if (authenticationHelper.authorizeRequest(requestTokenHeader) && userHelper.getUsernameFromRequestHeader(requestTokenHeader).equals(username)) {
             return commentService.deleteComment(tweetId, requestTokenHeader);
         } else {

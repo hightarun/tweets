@@ -1,7 +1,5 @@
 package com.tweetapp.tweets.model.authentication;
 
-import com.tweetapp.tweets.model.comment.Comment;
-import com.tweetapp.tweets.model.tweet.Tweet;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter

@@ -1,6 +1,5 @@
 package com.tweetapp.tweets.controller.tweet;
 
-import com.tweetapp.tweets.controller.authentication.AuthenticationController;
 import com.tweetapp.tweets.exception.authentication.AuthorizationException;
 import com.tweetapp.tweets.exception.like.AlreadyLikedException;
 import com.tweetapp.tweets.exception.tweet.TweetNotFoundException;
@@ -14,16 +13,13 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class LikeController {
     static final String UNAUTHORIZED = "UNAUTHORIZED_REQUEST";
-    private final AuthenticationController authenticationController;
-
     private final LikeServiceImpl likeService;
     private final UserHelper userHelper;
 
     private final AuthenticationHelper authenticationHelper;
 
     @Autowired
-    public LikeController(AuthenticationController authenticationController, LikeServiceImpl likeService, UserHelper userHelper, AuthenticationHelper authenticationHelper) {
-        this.authenticationController = authenticationController;
+    public LikeController(LikeServiceImpl likeService, UserHelper userHelper, AuthenticationHelper authenticationHelper) {
         this.likeService = likeService;
         this.userHelper = userHelper;
         this.authenticationHelper = authenticationHelper;

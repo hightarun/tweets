@@ -1,5 +1,6 @@
 package com.tweetapp.tweets.service.authentication;
 
+import com.tweetapp.tweets.exception.TryCatchException;
 import com.tweetapp.tweets.exception.authentication.InvalidResetCodeException;
 import com.tweetapp.tweets.exception.authentication.UsernameAlreadyExistsException;
 import com.tweetapp.tweets.exception.authentication.UsernameNotExistsException;
@@ -28,6 +29,8 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService, JwtUserDet
     private final DtoConverter dtoConverter;
     private final EmailSenderService emailSenderService;
 
+    Random rnd = new Random();
+
     @Autowired
     public JwtUserDetailsServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, DtoConverter dtoConverter, EmailSenderService emailSenderService) {
         this.userRepository = userRepository;
@@ -45,11 +48,10 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService, JwtUserDet
         }
         log.info("User found");
         log.info("User successfully located");
-        // JwtUserDetails implements UserDetails
         return new JwtUserDetails(user);
     }
 
-    public String addUser(JwtRegisterRequest jwtRegisterRequest) throws Exception {
+    public String addUser(JwtRegisterRequest jwtRegisterRequest) throws UsernameAlreadyExistsException, TryCatchException {
         if (userRepository.findByUsername(jwtRegisterRequest.getUsername()) != null) {
             throw new UsernameAlreadyExistsException("Username " + jwtRegisterRequest.getUsername() + " already exists.");
         }
@@ -65,18 +67,18 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService, JwtUserDet
             log.info("User added in DB");
             return "User Registered";
         } catch (Exception ex) {
-            throw new Exception(ex.getMessage());
+            log.error(ex.getMessage());
+            throw new TryCatchException(ex.getMessage());
         }
     }
 
     @Override
-    public String forgotPassword(String username) throws Exception {
+    public String forgotPassword(String username) throws UsernameNotExistsException, TryCatchException {
         User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotExistsException("Username " + username + " does not exists.");
         }
-
-        Random rnd = new Random();
+        
         int number = rnd.nextInt(999999);
         String code = String.format("%06d", number);
         user.setResetCode(code);
@@ -86,14 +88,15 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService, JwtUserDet
             String email = user.getEmail();
             emailSenderService.sendSimpleEmail(email, "Password Reset - Tweets", "Code for Password Reset: " + code);
         } catch (Exception ex) {
-            throw new Exception(ex.getMessage());
+            log.error(ex.getMessage());
+            throw new TryCatchException(ex.getMessage());
         }
 
         return "Password reset link has been sent to the registered email";
     }
 
     @Override
-    public String resetPassword(ResetPassword resetPassword) throws Exception {
+    public String resetPassword(ResetPassword resetPassword) throws UsernameNotExistsException, InvalidResetCodeException, TryCatchException {
         String username = resetPassword.getUsername();
         User user = userRepository.findByUsername(username);
         if (user == null) {
@@ -108,16 +111,18 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService, JwtUserDet
             log.info("password reset successfully");
             return ("Password has been reset successfully");
         } catch (Exception ex) {
-            throw new Exception(ex.getMessage());
+            log.error(ex.getMessage());
+            throw new TryCatchException(ex.getMessage());
         }
     }
 
     @Override
-    public List<UserDetailsResponse> getAllUser() throws Exception {
+    public List<UserDetailsResponse> getAllUser() throws TryCatchException {
         try {
-            return userRepository.findAll().stream().map(user -> dtoConverter.convertToUserDetailsResponse(user)).collect(Collectors.toList());
+            return userRepository.findAll().stream().map(dtoConverter::convertToUserDetailsResponse).collect(Collectors.toList());
         } catch (Exception ex) {
-            throw new Exception(ex.getMessage());
+            log.error(ex.getMessage());
+            throw new TryCatchException(ex.getMessage());
         }
 
     }

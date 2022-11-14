@@ -74,7 +74,7 @@ public class DtoConverter {
         commentResponse.setId(comment.getId());
         commentResponse.setCommentUserId(comment.getUser().getId());
         commentResponse.setCommentTweetId(comment.getTweet().getId());
-        commentResponse.setComment(comment.getComment());
+        commentResponse.setContent(comment.getContent());
         return commentResponse;
     }
 

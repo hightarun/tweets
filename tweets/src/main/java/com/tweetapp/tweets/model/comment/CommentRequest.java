@@ -17,5 +17,5 @@ public class CommentRequest {
     @Size(min = 2, message = "Comment should contain at least 2 characters")
     @Size(max = 144, message = "Comment should be of maximum 144 characters")
     @NotBlank(message = "Content is required")
-    private String comment;
+    private String content;
 }

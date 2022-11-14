@@ -46,7 +46,7 @@ public class CommentServiceTest {
         userHelper = Mockito.mock(UserHelper.class);
         commentService = new CommentServiceImpl(userRepository, tweetRepository, commentRepository, userHelper);
         user = new User(1L, "Tarun", "Bisht", "tarun@gmail.com", "hightarun", "12345678", "8929409364", null);
-        tweet = new Tweet(1l,"Hello World" , user ,null ,null );
+        tweet = new Tweet(1l, "Hello World", user, null, null);
     }
 
     @Test
@@ -54,18 +54,18 @@ public class CommentServiceTest {
         CommentRequest commentRequest = new CommentRequest("First Comment");
         Comment comment = new Comment();
         comment.setId(1L);
-        comment.setComment(commentRequest.getComment());
+        comment.setContent(commentRequest.getContent());
         comment.setTweet(tweet);
         comment.setUser(user);
         Mockito.when(commentRepository.save(comment)).thenReturn(comment);
-       // assertThat(commentService.addComment(commentRequest,tweet.getId(),"token")).isNotNull();
+        // assertThat(commentService.addComment(commentRequest,tweet.getId(),"token")).isNotNull();
     }
 
     @Test
     void deleteComment() {
         Comment comment = new Comment();
         comment.setId(1L);
-        comment.setComment("first Comment");
+        comment.setContent("first Comment");
         List<Comment> comments = new ArrayList<>();
         comments.add(comment);
         Mockito.when(commentRepository.findCommentByTweetId(1L)).thenReturn(comments);
