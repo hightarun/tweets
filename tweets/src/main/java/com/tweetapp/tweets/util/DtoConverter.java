@@ -48,6 +48,8 @@ public class DtoConverter {
         tweetResponse.setLikes(likes);
         tweetResponse.setContent(tweet.getContent());
         tweetResponse.setId(tweet.getId());
+        tweetResponse.setCreateTime(tweet.getCreateTime());
+        tweetResponse.setUpdateTime(tweet.getUpdateTime());
         tweetUser.setUser_id(tweet.getUser().getId());
         tweetUser.setFirstName(tweet.getUser().getFirstName());
         tweetUser.setLastName(tweet.getUser().getLastName());

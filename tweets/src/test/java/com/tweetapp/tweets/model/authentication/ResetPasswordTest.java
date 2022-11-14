@@ -1,22 +1,20 @@
-package com.tweetapp.tweets.model.comment;
+package com.tweetapp.tweets.model.authentication;
 
-import com.tweetapp.tweets.model.tweet.Tweet;
+import com.tweetapp.tweets.model.comment.Comment;
 import org.junit.jupiter.api.Test;
 import org.meanbean.test.BeanTester;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class commentTest {
+public class ResetPasswordTest {
+    private ResetPassword resetPassword;
 
-    private Comment comment;
-
-    private Comment comment1;
+    private ResetPassword resetPassword2;
 
     @Test
     void testPensionerBean() {
         final BeanTester beanTester = new BeanTester();
         beanTester.getFactoryCollection();
-        beanTester.testBean(Comment.class);
+        beanTester.testBean(ResetPassword.class);
     }
-
 }

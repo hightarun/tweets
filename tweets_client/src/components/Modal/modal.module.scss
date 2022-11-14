@@ -1,0 +1,39 @@
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  background-color: #252525;
+  padding: 2rem 0.5rem;
+  margin: 0 auto;
+  width: 80%;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+  .close {
+    .icon {
+      color: red;
+      margin-right: 8px;
+      cursor: pointer;
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      height: 1.5rem;
+    }
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+}

@@ -1,24 +1,32 @@
 package com.tweetapp.tweets.service.authentication;
 
+import com.tweetapp.tweets.exception.authentication.InvalidResetCodeException;
+import com.tweetapp.tweets.exception.authentication.UsernameAlreadyExistsException;
 import com.tweetapp.tweets.exception.authentication.UsernameNotExistsException;
+import com.tweetapp.tweets.model.authentication.JwtRegisterRequest;
+import com.tweetapp.tweets.model.authentication.ResetPassword;
 import com.tweetapp.tweets.model.authentication.User;
 import com.tweetapp.tweets.repository.UserRepository;
 import com.tweetapp.tweets.util.DtoConverter;
 import com.tweetapp.tweets.util.EmailSenderService;
 import com.tweetapp.tweets.util.PasswordEncoder;
+import org.assertj.core.api.Assert;
+import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 
 @SpringBootTest
@@ -38,6 +46,14 @@ public class JwtUserDetailsServiceTest {
         emailSenderService = Mockito.mock(EmailSenderService.class);
         service = new JwtUserDetailsServiceImpl(repository, passwordEncoder, dtoConverter, emailSenderService);
     }
+    @Test
+    public void passwordEncoderNotNull(){assertThat(passwordEncoder).isNotNull();}
+
+    @Test
+    public void serviceNotNull(){assertThat(service).isNotNull();}
+
+    @Test
+    public void repositoryNotNUll(){assertThat(repository).isNotNull();}
 
     @Test
     void loadUserByUserNameShouldThrowExceptionTest() {
@@ -73,17 +89,138 @@ public class JwtUserDetailsServiceTest {
     }
 
     @Test
-    void addUser() {
-        User user = new User(2L, "Megha", "Samant", "samant19@gmail.com", "megha", "123456870", "9654313554", null);
-        when(repository.save(user)).thenReturn(user);
+    void addUserShouldThrowException(){
+        User u1 = new User(1L, "Tarun", "Bisht", "tarun@gmail.com", "hightarun", "12345678", "8929409364", null);
+        ;
+        JwtRegisterRequest jwtRegisterRequest = new JwtRegisterRequest();
+        jwtRegisterRequest.setFirstName("Tarun");
+        jwtRegisterRequest.setLastName("Bisht");
+        jwtRegisterRequest.setUsername("hightarun");
+        jwtRegisterRequest.setEmail("tarun@gmail.com");
+        jwtRegisterRequest.setPassword("12345678");
+        jwtRegisterRequest.setContactNumber("8929409262");
+        when(passwordEncoder.encoder()).thenReturn(new BCryptPasswordEncoder());
+        when(repository.findByUsername("hightarun")).thenReturn(u1);
+        assertThatThrownBy(()->service.addUser(jwtRegisterRequest))
+                .isInstanceOf(UsernameAlreadyExistsException.class).hasMessage("Username hightarun already exists.");
+
+        verify(repository , Mockito.times(1)).findByUsername("hightarun");
     }
 
     @Test
-    void getAllUser() {
+    void addUserShouldHaveException2(){
+        User u1 = new User(1L, "Tarun", "Bisht", "tarun@gmail.com", "hightarun", "12345678", "8929409364", null);
+        ;
+        JwtRegisterRequest jwtRegisterRequest = new JwtRegisterRequest();
+        jwtRegisterRequest.setFirstName("Tarun");
+        jwtRegisterRequest.setLastName("Bisht");
+        jwtRegisterRequest.setUsername("hightarun");
+        jwtRegisterRequest.setEmail("tarun@gmail.com");
+        jwtRegisterRequest.setPassword("12345678");
+        jwtRegisterRequest.setContactNumber("8929409262");
+        when(passwordEncoder.encoder()).thenReturn(new BCryptPasswordEncoder());
+        when(repository.findByUsername("hightarun")).thenReturn(u1);
+        assertThatThrownBy(() -> service.addUser(jwtRegisterRequest))
+                .isInstanceOf(Exception.class).hasMessage("Username hightarun already exists.");
+    }
+
+    @Test
+    void addUser() throws Exception{
+
+        JwtRegisterRequest jwtRegisterRequest = new JwtRegisterRequest();
+        jwtRegisterRequest.setFirstName("Tarun");
+        jwtRegisterRequest.setLastName("Bisht");
+        jwtRegisterRequest.setUsername("hightarun");
+        jwtRegisterRequest.setEmail("tarun@gmail.com");
+        jwtRegisterRequest.setPassword("12345678");
+        jwtRegisterRequest.setContactNumber("8929409262");
+        when(passwordEncoder.encoder()).thenReturn(new BCryptPasswordEncoder());
+        User user = new User();
+        user.setId(1L);
+        user.setPassword(passwordEncoder.encoder().encode(jwtRegisterRequest.getPassword()));
+        user.setFirstName(jwtRegisterRequest.getFirstName());
+        user.setLastName(jwtRegisterRequest.getLastName());
+        user.setEmail(jwtRegisterRequest.getEmail());
+        user.setUsername(jwtRegisterRequest.getUsername());
+        user.setContactNumber(jwtRegisterRequest.getContactNumber());
+        user.setResetCode(null);
+        when(repository.save(user)).thenReturn(user);
+        assertThat(service.addUser(jwtRegisterRequest)).isNotNull();
+
+    }
+
+    @Test
+    void getAllUserShouldThrowException(){
+        when(repository.findAll().isEmpty()).thenReturn(null);
+        assertThatThrownBy(() -> service.getAllUser().isEmpty())
+                .isInstanceOf(Exception.class).hasAllNullFieldsOrProperties();
+    }
+
+    @Test
+    void getAllUser() throws Exception{
         User u1 = new User(1L, "Tarun", "Bisht", "tarun@gmail.com", "hightarun", "12345678", "8929409364", null);
         ;
         List<User> users = new ArrayList<>();
         users.add(u1);
         when(repository.findAll()).thenReturn(users);
+        assertThat(service.getAllUser());
+    }
+
+    @Test
+    void forgotPasswordShouldThrowException(){
+        when(repository.findByUsername("megha")).thenReturn(null);
+        assertThatThrownBy(() -> service.forgotPassword("megha"))
+                .isInstanceOf(UsernameNotExistsException.class)
+                .hasMessage("Username megha does not exists.");
+        verify(repository, Mockito.times(1)).findByUsername("megha");
+    }
+
+    @Test
+    void forgotPasswordShouldThrowException2(){
+        when(repository.findByEmail("samantmegha@gmail.com")).thenReturn(null);
+        assertThatThrownBy(() -> service.forgotPassword("megha"))
+                .isInstanceOf(Exception.class).hasMessage("Username megha does not exists.");
+    }
+    @Test
+    public void forgotPassword() throws Exception {
+        User user = new User(1L, "Tarun", "Bisht", "tarun@gmail.com", "hightarun", "12345678", "8929409364", null);
+        Random random = new Random();
+        int number = random.nextInt(999999);
+        String code = String.format("%06d", number);
+        user.setResetCode(code);
+        when(repository.findByUsername("hightarun")).thenReturn(user);
+        when(repository.save(user)).thenReturn(user);
+        assertThat(service.forgotPassword("hightarun")).isNotNull();
+        verify(repository , Mockito.times(1)).findByUsername("hightarun");
+    }
+
+    @Test
+    void resetPasswordShouldThrowException(){
+        User user = new User(1L, "megha", "samant", "megha@gmail.com", "hightarun", "12345678", "8929409364", null);
+        Random random = new Random();
+        int number = random.nextInt(999999);
+        String code = String.format("%06d", number);
+        user.setResetCode(code);
+        ResetPassword resetPass = new ResetPassword(code , "megha" ,"123456789");
+        when(passwordEncoder.encoder()).thenReturn(new BCryptPasswordEncoder());
+        when(repository.findByUsername("megha")).thenReturn(null);
+        assertThatThrownBy(() -> service.resetPassword(resetPass))
+                .isInstanceOf(UsernameNotExistsException.class)
+                .hasMessage("Username megha does not exists.");
+        verify(repository, Mockito.times(1)).findByUsername("megha");
+    }
+    @Test
+    public void resetPassword() throws Exception {
+        User user = new User(1L, "Tarun", "Bisht", "tarun@gmail.com", "hightarun", "12345678", "8929409364", null);
+        Random random = new Random();
+        int number = random.nextInt(999999);
+        String code = String.format("%06d", number);
+        user.setResetCode(code);
+        ResetPassword resetPass = new ResetPassword(code , "hightarun" ,"123456789");
+        when(passwordEncoder.encoder()).thenReturn(new BCryptPasswordEncoder());
+        when(repository.findByUsername("hightarun")).thenReturn(user);
+        user.setPassword(passwordEncoder.encoder().encode(resetPass.getPassword()));
+        when(repository.save(user)).thenReturn(user);
+        assertThat(service.resetPassword(resetPass)).isNotNull();
     }
 }

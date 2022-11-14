@@ -1,22 +1,22 @@
-package com.tweetapp.tweets.model.comment;
+package com.tweetapp.tweets.model.tweet;
 
-import com.tweetapp.tweets.model.tweet.Tweet;
+import com.tweetapp.tweets.model.authentication.User;
 import org.junit.jupiter.api.Test;
 import org.meanbean.test.BeanTester;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class commentTest {
+public class TweetTest {
+    private Tweet tweet;
 
-    private Comment comment;
-
-    private Comment comment1;
+    private Tweet tweet1;
 
     @Test
     void testPensionerBean() {
         final BeanTester beanTester = new BeanTester();
         beanTester.getFactoryCollection();
-        beanTester.testBean(Comment.class);
+        beanTester.testBean(Tweet.class);
     }
+
 
 }

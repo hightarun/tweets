@@ -25,7 +25,7 @@ const Navbar = () => {
   };
 
   const profileHandler = () => {
-    user && navigate(`/users/${user.username}`);
+    user && navigate(`/user/${user.username}`);
   };
 
   // navbar links when logged in.

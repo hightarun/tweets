@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -25,4 +26,8 @@ public class TweetResponse {
     private List<CommentResponse> comments;
 
     private List<LikeResponse> likes;
+
+    private Date createTime;
+
+    private Date updateTime;
 }

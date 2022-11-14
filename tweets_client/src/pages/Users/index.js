@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { loadUser } from "../../redux/actions/auth";
 import { getCurrentUser } from "../../redux/actions/user";
 
-import CurrentUser from "../../components/page/CurrentUser";
-import User from "../../components/page/User";
+import CurrentUser from "../../components/pageTemplates/CurrentUser";
+import User from "../../components/pageTemplates/User";
 
 import Layout from "../../components/Layout";
 
