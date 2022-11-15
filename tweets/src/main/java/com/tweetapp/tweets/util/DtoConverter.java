@@ -65,14 +65,15 @@ public class DtoConverter {
         userDetailsResponse.setFirstName(user.getFirstName());
         userDetailsResponse.setLastName(user.getLastName());
         userDetailsResponse.setEmail(user.getEmail());
-        userDetailsResponse.setContactNumber(user.getContactNumber());
         return userDetailsResponse;
     }
 
     public CommentResponse convertToCommentResponse(Comment comment) {
+        UserDetailsResponse userDetailsResponse = convertToUserDetailsResponse(comment.getUser());
+
         CommentResponse commentResponse = new CommentResponse();
         commentResponse.setId(comment.getId());
-        commentResponse.setCommentUserId(comment.getUser().getId());
+        commentResponse.setCommentUser(userDetailsResponse);
         commentResponse.setCommentTweetId(comment.getTweet().getId());
         commentResponse.setContent(comment.getContent());
         return commentResponse;

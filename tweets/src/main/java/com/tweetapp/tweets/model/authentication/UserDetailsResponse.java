@@ -21,6 +21,4 @@ public class UserDetailsResponse {
 
     private String username;
 
-    private String contactNumber;
-
 }

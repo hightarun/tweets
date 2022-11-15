@@ -74,12 +74,12 @@ const UserBody = ({ currentUser, userData }) => {
   return (
     <div className={styles.container}>
       <div className={styles.banner}>
-        <img src="../assets/banner.png" alt="banner" />
+        <img src="../assets/banner.jpg" alt="banner" />
       </div>
       <div className={styles.header}>
         <div className={styles.infoContainer}>
           <div className={styles.avatar}>
-            <img src="../assets/avatar.jpg" alt="avatar" />
+            <img src="../assets/avatar.png" alt="avatar" />
           </div>
           <div className={styles.info}>
             <p>{userData && userData.firstName + " " + userData.lastName}</p>
