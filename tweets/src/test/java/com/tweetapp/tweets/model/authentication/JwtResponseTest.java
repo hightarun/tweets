@@ -1,14 +1,22 @@
 package com.tweetapp.tweets.model.authentication;
 
-import com.tweetapp.tweets.model.comment.Comment;
+import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.meanbean.test.BeanTester;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class JwtResponseTest {
     private JwtResponse jwtResponse;
 
-    private JwtResponse jwtResponse2;
+    @BeforeEach
+    void setUp() throws Exception{
+        jwtResponse = new JwtResponse("token");
+    }
+
+    @Test
+    void test(){
+        assertThat(jwtResponse.getToken().equals("token"));
+    }
 
 }

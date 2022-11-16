@@ -3,32 +3,33 @@
   padding-left: 1.2rem;
   margin-right: auto;
   margin-left: auto;
-  height: 92vh;
+  min-height: 92vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 20px 0;
 }
 
 .wrapper {
-  background-color: lightblue;
+  background-color: #3e4042;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  box-shadow: 0 2px 4px 0 grey;
+  box-shadow: 0 2px 4px 0 #3e4042;
   border-radius: 8px;
   padding: 2%;
   width: 40%;
 
   p {
     a {
-      color: black;
+      color: cornsilk;
     }
   }
 }
 
 .txtwrap {
-  color: black;
+  color: white;
   font-size: 2.5rem;
   margin-bottom: 5vh;
   margin-left: 15%;
@@ -62,9 +63,9 @@
 }
 
 .butn {
-  background-color: olivedrab;
+  background-color: cornflowerblue;
   color: black;
-  border-color: olivedrab;
+  border-color: cornflowerblue;
   cursor: pointer;
   width: 30%;
   height: 3em;
@@ -73,7 +74,7 @@
   margin-top: 10px;
   margin-bottom: 3vh;
   &:hover {
-    box-shadow: 0 2px 4px 0 grey;
+    box-shadow: 0 2px 4px 0 #252525;
   }
   &:focus {
     outline: none;

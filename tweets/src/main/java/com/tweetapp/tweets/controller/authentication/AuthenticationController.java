@@ -90,10 +90,5 @@ public class AuthenticationController {
     public UserDetailsResponse searchUserByUsername(@PathVariable("username") String username) throws UsernameNotExistsException {
         return jwtUserDetailsService.searchUserByUsername(username);
     }
-
-
-    @GetMapping(value = "/")
-    public ResponseEntity<String> check() {
-        return new ResponseEntity<>("Auth-OK", HttpStatus.UNAUTHORIZED);
-    }
+    
 }

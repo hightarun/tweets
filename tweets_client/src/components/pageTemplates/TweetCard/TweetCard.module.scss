@@ -53,6 +53,57 @@
     }
   }
   .likes {
+    display: flex;
+    align-items: center;
+    padding: 2px;
+    margin: 0 5px;
+    div {
+      p {
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+    }
+    p {
+      font-size: 1rem;
+    }
+  }
+  .reply {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8px;
+    margin: 0 5px;
+    background-color: #252525;
+    border-radius: 8px;
+    form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      input {
+        margin: 0 10px;
+        background-color: #252525;
+        color: white;
+        width: 100%;
+        outline: none;
+        font-size: 1rem;
+        border-radius: 6px;
+        padding: 10px;
+        background-color: black;
+        resize: none;
+        transition: all 0.3s ease;
+      }
+      button {
+        outline: none;
+        border: none;
+        background-color: cornflowerblue;
+        padding: 10px;
+        border-radius: 6px;
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+      }
+    }
   }
   .comments {
     display: flex;
@@ -62,6 +113,10 @@
     p {
       padding-left: 8px;
       font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      text-decoration: none;
     }
     .comment {
       margin: 5px 0;

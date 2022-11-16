@@ -1,7 +1,7 @@
 .container {
-  padding: 0;
+  padding: 20px 0;
   margin: 0;
-  height: 92vh;
+  min-height: 92vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,7 +10,7 @@
   .wrapper {
     display: flex;
     flex-direction: column;
-    background-color: cadetblue;
+    background-color: #3e4042;
     padding: 5%;
     min-width: 60%;
     border-radius: 8px;
@@ -33,25 +33,25 @@
     font-size: 1rem;
     padding: 0px 16px;
     &:focus {
-      border: 1px solid pink !important;
+      border: 1px solid #252525 !important;
       background-color: cadetblue;
       outline: 0;
     }
   }
 
   .button {
-    background-color: pink;
+    background-color: cornflowerblue;
     color: black;
-    border-color: pink;
+    border-color: cornflowerblue;
     cursor: pointer;
-    width: 80px;
+    width: fit-content;
     height: 3em;
-    border-radius: 4px;
+    border-radius: 6px;
     margin-left: 10px;
     margin-top: 10px;
     margin-bottom: 5vh;
     &:hover {
-      box-shadow: 0 1px 2px 0 grey;
+      box-shadow: 0 1px 2px 0 #252525;
     }
     &:focus {
       outline: none;
@@ -60,6 +60,44 @@
       font-size: 1rem;
       font-weight: 2px;
       letter-spacing: 1.8px;
+    }
+  }
+  .forgot {
+    padding-bottom: 20px;
+    p {
+      cursor: pointer;
+    }
+    .contain {
+      display: flex;
+      flex-direction: column;
+      .user {
+      }
+      p {
+        font-style: italic;
+        font-size: 0.9rem;
+      }
+      button {
+        background-color: cornflowerblue;
+        width: fit-content;
+        padding: 5px;
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    }
+    .forgotModal {
+      background-color: #3e4042;
+      min-height: 300px;
+      p {
+        text-align: center;
+        padding: 0 5px;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+      }
     }
   }
 }

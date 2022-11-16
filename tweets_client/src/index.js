@@ -20,7 +20,7 @@ const root = createRoot(container);
 
 root.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <BrowserRouter forceRefresh={true}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="login" element={<Login />} />

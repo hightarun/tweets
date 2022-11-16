@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -14,4 +15,7 @@ public interface TweetRepository extends JpaRepository<Tweet, Long> {
 
     @Query(value = "select * from tweets where user_id = :uid order by update_time desc", nativeQuery = true)
     List<Tweet> findTweetsByUser(@Param("uid") Long id);
+
+    @Query(value = "select * from tweets order by update_time desc", nativeQuery = true)
+    List<Tweet> findAllOrderByUpdateTime();
 }

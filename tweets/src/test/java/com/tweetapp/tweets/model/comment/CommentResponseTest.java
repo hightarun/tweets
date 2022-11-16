@@ -1,5 +1,8 @@
 package com.tweetapp.tweets.model.comment;
 
+import org.junit.jupiter.api.Assertions;
+import com.tweetapp.tweets.model.authentication.UserDetailsResponse;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.meanbean.test.BeanTester;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,7 +11,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class CommentResponseTest {
     private CommentResponse commentResponse;
 
-    private CommentResponse commentResponse2;
+    private UserDetailsResponse userDetailsResponse;
+
+    @BeforeEach
+    void setUp(){
+        userDetailsResponse = new UserDetailsResponse(1L,"Tarun","Bisht","tarun@gmail.com","hightarun");
+    }
+
+    @Test
+    void test(){
+        commentResponse = new CommentResponse(1L , "hey Everyone!" , userDetailsResponse , 1L);
+        Assertions.assertEquals(commentResponse.getId() , 1L);
+        Assertions.assertEquals(commentResponse.getContent() , "hey Everyone!");
+        Assertions.assertEquals(commentResponse.getCommentUser() , userDetailsResponse);
+        Assertions.assertEquals(commentResponse.getCommentTweetId() , 1L);
+    }
 
     @Test
     void testPensionerBean() {

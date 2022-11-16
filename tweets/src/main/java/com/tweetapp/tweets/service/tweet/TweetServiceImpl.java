@@ -16,9 +16,11 @@ import com.tweetapp.tweets.repository.UserRepository;
 import com.tweetapp.tweets.util.DtoConverter;
 import com.tweetapp.tweets.util.UserHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -106,7 +108,7 @@ public class TweetServiceImpl implements TweetService {
 
     @Override
     public List<TweetResponse> getAllTweet() {
-        return tweetRepository.findAll().stream().map(dtoConverter::convertToTweetResponse).collect(Collectors.toList());
+        return tweetRepository.findAllOrderByUpdateTime().stream().map(dtoConverter::convertToTweetResponse).collect(Collectors.toList());
     }
 
 }
