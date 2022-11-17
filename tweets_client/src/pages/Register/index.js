@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./Register.module.scss";
 
-import { useSelector, useDispatch } from "react-redux";
-
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import Layout from "../../components/Layout";
 
@@ -12,7 +10,6 @@ import { setAlert } from "../../redux/actions/alert";
 
 const Register = () => {
   const dispatch = useDispatch();
-  let navigate = useNavigate();
 
   const [formdata, setFormData] = useState({
     firstName: "",
@@ -59,7 +56,7 @@ const Register = () => {
           </div>
           <form className={styles.form} onSubmit={(e) => onSubmit(e)}>
             <div className={styles.username}>
-              <p>Tweets</p>
+              <p>@</p>
               <input
                 className={styles.input_box}
                 type="text"

@@ -24,6 +24,10 @@ const Home = () => {
 
   const authUser = useSelector((state) => state.rootReducer.auth.user);
 
+  const refreshPage = () => {
+    navigate(0);
+  };
+
   const isAuthenticated = useSelector(
     (state) => state.rootReducer.auth.isAuthenticated
   );
@@ -58,6 +62,9 @@ const Home = () => {
         data: body,
       });
       dispatch(setAlert("Message", res.data, "success"));
+      setTimeout(() => {
+        refreshPage();
+      }, 1000);
     } catch (err) {
       const errors = err.response.data.errorMap; // errors array from backend
 
@@ -73,13 +80,6 @@ const Home = () => {
     getAllTweets();
   }, []);
 
-  // Redirect to login if not authenticated
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/login");
-    }
-  }, [isAuthenticated, navigate]);
-
   // authenticate token
   useEffect(() => {
     dispatch(loadUser());
@@ -88,28 +88,32 @@ const Home = () => {
   return (
     <Layout>
       <div className={styles.container}>
-        <div className={styles.newTweet}>
-          <div className={styles.formContainer}>
-            <div className={styles.head}>
-              <p>Whats on your mind ?</p>
-            </div>
-            <form>
-              <textarea
-                className={styles.input}
-                type="text"
-                rows={5}
-                name="content"
-                placeholder="Write a tweet..."
-                value={newTweet.content}
-                onChange={(e) => onChangeNewTweetForm(e)}
-                required
-              />
-            </form>
-            <div className={styles.btn}>
-              <button onClick={postTweet}>Tweet</button>
+        {isAuthenticated ? (
+          <div className={styles.newTweet}>
+            <div className={styles.formContainer}>
+              <div className={styles.head}>
+                <p>Whats on your mind ?</p>
+              </div>
+              <form>
+                <textarea
+                  className={styles.input}
+                  type="text"
+                  rows={5}
+                  name="content"
+                  placeholder="Write a tweet..."
+                  value={newTweet.content}
+                  onChange={(e) => onChangeNewTweetForm(e)}
+                  required
+                />
+              </form>
+              <div className={styles.btn}>
+                <button onClick={postTweet}>Tweet</button>
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div></div>
+        )}
         <div className={styles.content}>
           <div className={styles.tweetsContainer}>
             {tweets &&

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,4 +17,5 @@ public class CommentResponse {
     private String content;
     private UserDetailsResponse commentUser;
     private Long commentTweetId;
+    private Date createTime;
 }

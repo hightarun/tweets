@@ -11,23 +11,43 @@
     padding: 8px;
     min-height: 100px;
 
-    .tweetUser {
+    .tweetInfo {
       display: flex;
       align-items: center;
-      height: 40px;
-      img {
-        padding-left: 4px;
-        border-radius: 10px;
-        height: 30px;
+      justify-content: space-between;
+      .tweetUser {
+        display: flex;
+        align-items: center;
+        height: 40px;
+        img {
+          padding-left: 4px;
+          border-radius: 10px;
+          height: 30px;
+        }
+        p {
+          padding-left: 4px;
+          font-size: 1rem;
+        }
+        span {
+          padding-left: 2px;
+          font-size: 0.9rem;
+          font-style: italic;
+        }
       }
-      p {
-        padding-left: 4px;
-        font-size: 1rem;
-      }
-      span {
-        padding-left: 2px;
-        font-size: 0.9rem;
-        font-style: italic;
+      .actions {
+        display: flex;
+        .deleteTweet {
+          cursor: pointer;
+          font-size: 1.5rem;
+          margin-right: 10px;
+          padding-left: 10px;
+          color: #ff1717;
+        }
+        .editTweet {
+          cursor: pointer;
+          font-size: 1.4rem;
+          color: #ffa600;
+        }
       }
     }
     .time {
@@ -125,23 +145,34 @@
       min-height: 60px;
       border-radius: 10px;
       border: 0.2px solid black;
-      .commentUser {
+      .commentInfo {
         display: flex;
-        justify-content: flex-start;
         align-items: center;
-        img {
-          padding-left: 4px;
-          border-radius: 10px;
-          height: 30px;
+        justify-content: space-between;
+        .commentUser {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          img {
+            padding-left: 4px;
+            border-radius: 10px;
+            height: 30px;
+          }
+          p {
+            padding-left: 4px;
+            font-size: 0.9rem;
+          }
+          span {
+            padding-left: 2px;
+            font-size: 0.8rem;
+            font-style: italic;
+          }
         }
-        p {
-          padding-left: 4px;
-          font-size: 0.9rem;
-        }
-        span {
-          padding-left: 2px;
-          font-size: 0.8rem;
-          font-style: italic;
+        .deleteComment {
+          cursor: pointer;
+          font-size: 1.4rem;
+          margin-right: 10px;
+          color: #ff1717;
         }
       }
       .commentContent {
@@ -149,7 +180,7 @@
         align-items: center;
         background-color: rgb(12, 12, 12);
         min-height: 40px;
-        padding-left: 50px;
+        padding: 5px 10px;
         border-radius: 10px;
       }
     }

@@ -14,6 +14,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Users from "./pages/Users";
+import AllUsers from "./pages/AllUsers";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -25,6 +26,7 @@ root.render(
         <Route path="/" element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="users" element={<AllUsers />} />
         <Route exact path="/user/:userid" element={<Users />} />
         <Route path="*" element={<Home />} />
       </Routes>

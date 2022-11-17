@@ -31,34 +31,14 @@
 .txtwrap {
   color: white;
   font-size: 2.5rem;
-  margin-bottom: 5vh;
-  margin-left: 15%;
-}
-
-.select {
-  .selectoptions {
-    width: 93%;
-    height: 2.5em;
-    margin: 10px;
-    font-size: 1rem;
-    padding: 0.5rem;
-    color: black;
-    border-radius: 4px;
-    outline: none;
-  }
-  p {
-    font-size: 0.8rem;
-    padding-left: 0.5rem;
-    color: black;
-  }
+  text-align: center;
 }
 
 .username {
   display: flex;
   align-items: center;
-  padding-left: 0.5rem;
   p {
-    font-size: 1.2rem;
+    font-size: 1.8rem;
   }
 }
 
@@ -91,14 +71,11 @@
   border-radius: 4px;
   margin: 1vh;
   width: 45%;
-  border: 1px solid grey !important;
+  border: 1px solid #252525 !important;
   font-size: 1rem;
-  padding: 0px 16px;
-  &:hover {
-    box-shadow: 0 2px 4px 0 grey;
-  }
+  padding: 0px 8px;
   &:focus {
-    border: 1px solid olivedrab !important;
+    border: 1px solid cornflowerblue !important;
     background-color: white;
     outline: 0;
   }

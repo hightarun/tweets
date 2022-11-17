@@ -110,7 +110,7 @@ public class TweetControllerTest {
     public void getAllTweetUser() {
         TweetUser tweetUser = new TweetUser(1L, "Tarun", "Bisht", "hightarun");
         TweetRequest tweetRequest = new TweetRequest("Hello World!");
-        CommentResponse commentResponse = new CommentResponse(1L, "hey", userDetailsResponse, 1L);
+        CommentResponse commentResponse = new CommentResponse(1L, "hey", userDetailsResponse, 1L, new Date());
         List<CommentResponse> commentResponses = new ArrayList<>();
         commentResponses.add(commentResponse);
         LikeResponse likeResponse = new LikeResponse(1L, user.getId(), 1L);
@@ -142,7 +142,7 @@ public class TweetControllerTest {
     @Test
     public void getAllTweets() {
         TweetUser tweetUser = new TweetUser(1L, "Tarun", "Bisht", "hightarun");
-        CommentResponse commentResponse = new CommentResponse(1L, "hey", userDetailsResponse, 1L);
+        CommentResponse commentResponse = new CommentResponse(1L, "hey", userDetailsResponse, 1L, new Date());
         List<CommentResponse> commentResponses = new ArrayList<>();
         commentResponses.add(commentResponse);
         LikeResponse likeResponse = new LikeResponse(1L, user.getId(), 1L);

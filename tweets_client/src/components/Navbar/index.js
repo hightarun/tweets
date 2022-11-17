@@ -28,11 +28,24 @@ const Navbar = () => {
     user && navigate(`/user/${user.username}`);
   };
 
+  const usersHandler = () => {
+    navigate("/users");
+  };
+  const registerHandler = () => {
+    navigate("/register");
+  };
+  const loginHandler = () => {
+    navigate("/login");
+  };
+
   // navbar links when logged in.
   const authLinks = (
     <div className={styles.menu}>
       <div onClick={homeHandler}>
         <p>Home</p>
+      </div>
+      <div onClick={usersHandler}>
+        <p>Users</p>
       </div>
       <div onClick={profileHandler}>
         <p>Profile</p>
@@ -44,14 +57,25 @@ const Navbar = () => {
   );
   // navbar links when not logged in.
   const guestLinks = (
-    <div className={styles.home} onClick={homeHandler}>
-      <p>Home</p>
+    <div className={styles.menu}>
+      <div onClick={homeHandler}>
+        <p>Home</p>
+      </div>
+      <div onClick={usersHandler}>
+        <p>Users</p>
+      </div>
+      <div onClick={registerHandler}>
+        <p>Register</p>
+      </div>
+      <div onClick={loginHandler}>
+        <p>Login</p>
+      </div>
     </div>
   );
   return (
     <div className={styles.navbar}>
       <div onClick={() => navigate("/")} className={styles.logo}>
-        <p>Tweets</p>
+        <img alt="logo" src="../../../logo1.png" />
       </div>
       <div className={styles.links}>
         {isAuthenticated ? authLinks : guestLinks}
