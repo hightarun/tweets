@@ -2,7 +2,6 @@ package com.tweetapp.tweets.controller.tweet;
 
 import com.tweetapp.tweets.exception.authentication.AuthorizationException;
 import com.tweetapp.tweets.exception.authentication.UsernameNotExistsException;
-import com.tweetapp.tweets.exception.tweet.TweetNotAuthorizedException;
 import com.tweetapp.tweets.exception.tweet.TweetNotFoundException;
 import com.tweetapp.tweets.model.tweet.TweetRequest;
 import com.tweetapp.tweets.model.tweet.TweetResponse;
@@ -44,7 +43,7 @@ public class TweetController {
     }
 
     @PutMapping("/{username}/update/{id}")
-    public String updateTweet(@PathVariable("username") String username, @PathVariable("id") long id, @RequestBody @Valid TweetRequest tweetRequest, @RequestHeader(value = "Authorization", required = true) String requestTokenHeader) throws AuthorizationException, UsernameNotExistsException, TweetNotAuthorizedException, TweetNotFoundException {
+    public String updateTweet(@PathVariable("username") String username, @PathVariable("id") long id, @RequestBody @Valid TweetRequest tweetRequest, @RequestHeader(value = "Authorization", required = true) String requestTokenHeader) throws AuthorizationException, UsernameNotExistsException, TweetNotFoundException {
         if (authenticationHelper.authorizeRequest(requestTokenHeader) && userHelper.getUsernameFromRequestHeader(requestTokenHeader).equalsIgnoreCase(username)) {
             return tweetService.updateTweets(tweetRequest, requestTokenHeader, id);
         } else {
@@ -53,7 +52,7 @@ public class TweetController {
     }
 
     @DeleteMapping("/{username}/delete/{id}")
-    public String deleteTweet(@PathVariable("username") String username, @PathVariable("id") long id, @RequestHeader(value = "Authorization", required = true) String requestTokenHeader) throws AuthorizationException, UsernameNotExistsException, TweetNotFoundException, TweetNotAuthorizedException {
+    public String deleteTweet(@PathVariable("username") String username, @PathVariable("id") long id, @RequestHeader(value = "Authorization", required = true) String requestTokenHeader) throws AuthorizationException, UsernameNotExistsException, TweetNotFoundException {
         if (authenticationHelper.authorizeRequest(requestTokenHeader) && userHelper.getUsernameFromRequestHeader(requestTokenHeader).equals(username)) {
             return tweetService.deleteTweet(requestTokenHeader, id);
         } else {

@@ -1,9 +1,7 @@
 package com.tweetapp.tweets.controller.authentication;
 
 import com.tweetapp.tweets.config.JwtTokenUtil;
-import com.tweetapp.tweets.exception.TryCatchException;
 import com.tweetapp.tweets.exception.authentication.AuthorizationException;
-import com.tweetapp.tweets.exception.authentication.UsernameAlreadyExistsException;
 import com.tweetapp.tweets.exception.authentication.UsernameNotExistsException;
 import com.tweetapp.tweets.model.authentication.*;
 
@@ -24,9 +22,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
-import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

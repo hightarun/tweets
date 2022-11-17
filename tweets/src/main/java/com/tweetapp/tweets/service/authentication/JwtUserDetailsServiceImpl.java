@@ -1,7 +1,5 @@
 package com.tweetapp.tweets.service.authentication;
 
-import com.tweetapp.tweets.exception.TryCatchException;
-import com.tweetapp.tweets.exception.authentication.InvalidResetCodeException;
 import com.tweetapp.tweets.exception.authentication.UsernameAlreadyExistsException;
 import com.tweetapp.tweets.exception.authentication.UsernameNotExistsException;
 import com.tweetapp.tweets.model.authentication.*;
@@ -62,7 +60,6 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService, JwtUserDet
         newUser.setUsername(jwtRegisterRequest.getUsername());
         newUser.setContactNumber(jwtRegisterRequest.getContactNumber());
         newUser.setPassword(passwordEncoder.encoder().encode(jwtRegisterRequest.getPassword()));
-
         userRepository.save(newUser);
         log.info("User added in DB");
         return "User Registered";
@@ -88,7 +85,7 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService, JwtUserDet
     }
 
     @Override
-    public String resetPassword(ResetPassword resetPassword) throws UsernameNotExistsException, InvalidResetCodeException {
+    public String resetPassword(ResetPassword resetPassword) throws UsernameNotExistsException {
         String username = resetPassword.getUsername();
         User user = userRepository.findByUsername(username);
         if (user == null) {
@@ -97,7 +94,7 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService, JwtUserDet
         if (resetPassword.getCode().equalsIgnoreCase(user.getResetCode())) {
             user.setPassword(passwordEncoder.encoder().encode(resetPassword.getPassword()));
             user.setResetCode(null);
-        } else throw new InvalidResetCodeException("Invalid reset code");
+        } else return "Invalid reset code";
         userRepository.save(user);
         log.info("password reset successfully");
         return ("Password has been reset successfully");

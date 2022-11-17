@@ -1,7 +1,5 @@
 package com.tweetapp.tweets.service.authentication;
 
-import com.tweetapp.tweets.exception.TryCatchException;
-import com.tweetapp.tweets.exception.authentication.InvalidResetCodeException;
 import com.tweetapp.tweets.exception.authentication.UsernameAlreadyExistsException;
 import com.tweetapp.tweets.exception.authentication.UsernameNotExistsException;
 import com.tweetapp.tweets.model.authentication.JwtRegisterRequest;
@@ -12,13 +10,13 @@ import java.util.List;
 
 public interface JwtUserDetailsService {
 
-    public String addUser(JwtRegisterRequest jwtRegisterRequest) throws UsernameAlreadyExistsException, TryCatchException;
+    public String addUser(JwtRegisterRequest jwtRegisterRequest) throws UsernameAlreadyExistsException;
 
-    public String forgotPassword(String username) throws UsernameNotExistsException, TryCatchException;
+    public String forgotPassword(String username) throws UsernameNotExistsException;
 
-    public String resetPassword(ResetPassword resetPassword) throws UsernameNotExistsException, InvalidResetCodeException, TryCatchException;
+    public String resetPassword(ResetPassword resetPassword) throws UsernameNotExistsException;
 
-    public List<UserDetailsResponse> getAllUser() throws TryCatchException;
+    public List<UserDetailsResponse> getAllUser();
 
     public UserDetailsResponse searchUserByUsername(String username) throws UsernameNotExistsException;
 }

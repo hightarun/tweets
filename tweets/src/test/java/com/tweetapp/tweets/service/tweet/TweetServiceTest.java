@@ -1,7 +1,6 @@
 package com.tweetapp.tweets.service.tweet;
 
 import com.tweetapp.tweets.exception.authentication.UsernameNotExistsException;
-import com.tweetapp.tweets.exception.tweet.TweetNotAuthorizedException;
 import com.tweetapp.tweets.exception.tweet.TweetNotFoundException;
 import com.tweetapp.tweets.model.authentication.User;
 import com.tweetapp.tweets.model.tweet.Tweet;
@@ -18,7 +17,6 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,70 +53,70 @@ public class TweetServiceTest {
 
     @Test
     void addTweetsTest() {
-        TweetRequest tweetRequest =new TweetRequest("New Tweet");
+        TweetRequest tweetRequest = new TweetRequest("New Tweet");
         Mockito.when(userHelper.getUsernameFromRequestHeader("token")).thenReturn("hightarun");
         User loginUser = userRepository.findByUsername(userHelper.getUsernameFromRequestHeader("token"));
-        Tweet tweet = new Tweet(1L,tweetRequest.getContent(),user,new Date(),null);
-        assertThat(tweetService.addTweets(tweetRequest,"token")).isNotNull();
+        Tweet tweet = new Tweet(1L, tweetRequest.getContent(), user, new Date(), null);
+        assertThat(tweetService.addTweets(tweetRequest, "token")).isNotNull();
         Mockito.when(tweetRepository.save(tweet)).thenReturn(tweet);
     }
 
     @Test
-    void updatedTweetsShouldThrowExceptions(){
-        TweetRequest tweetRequest =new TweetRequest("New Tweet");
+    void updatedTweetsShouldThrowExceptions() {
+        TweetRequest tweetRequest = new TweetRequest("New Tweet");
         Mockito.when((userHelper.getUsernameFromRequestHeader("token"))).thenReturn("megha");
         Mockito.when(userRepository.findByUsername("megha")).thenReturn(user);
-        User loginUser =userRepository.findByUsername(userHelper.getUsernameFromRequestHeader("token"));
-        Tweet tweet = new Tweet(1L,"hello",loginUser,null,null);
-        assertThatThrownBy(()->tweetService.updateTweets(tweetRequest,"token",1L))
+        User loginUser = userRepository.findByUsername(userHelper.getUsernameFromRequestHeader("token"));
+        Tweet tweet = new Tweet(1L, "hello", loginUser, null, null);
+        assertThatThrownBy(() -> tweetService.updateTweets(tweetRequest, "token", 1L))
                 .isInstanceOf(TweetNotFoundException.class)
                 .hasMessage("Tweet does not exists with id 1");
     }
 
     @Test
-    void updatedTweetsTest() throws UsernameNotExistsException, TweetNotAuthorizedException, TweetNotFoundException {
+    void updatedTweetsTest() throws UsernameNotExistsException, TweetNotFoundException {
 
-        TweetRequest tweetRequest =new TweetRequest("New Tweet");
+        TweetRequest tweetRequest = new TweetRequest("New Tweet");
         Mockito.when(userHelper.getUsernameFromRequestHeader("token")).thenReturn("hightarun");
         Mockito.when(userRepository.findByUsername("hightarun")).thenReturn(user);
         //Mockito.when(tweetService.updateTweets(tweetRequest,"token",1L)).thenReturn("Tweet updated successfully");
         User loginUser = userRepository.findByUsername(userHelper.getUsernameFromRequestHeader("token"));
-        Tweet tweet = new Tweet(1L,"Old tweet",loginUser,null,null);
+        Tweet tweet = new Tweet(1L, "Old tweet", loginUser, null, null);
         Mockito.when(tweetRepository.findById(1L)).thenReturn(Optional.of(tweet));
-        assertThat(tweetService.updateTweets(tweetRequest,"token" , 1L)).isNotNull();
+        assertThat(tweetService.updateTweets(tweetRequest, "token", 1L)).isNotNull();
         Mockito.when(tweetRepository.save(tweet)).thenReturn(tweet);
 
 
     }
 
     @Test
-    void deleteTweetsExceptionCheck(){
+    void deleteTweetsExceptionCheck() {
         Mockito.when(tweetRepository.findTweetsByUser(1L)).thenReturn(null);
         Mockito.when(userHelper.getUsernameFromRequestHeader("token")).thenReturn("megha");
-        assertThatThrownBy(()->tweetService.deleteTweet("token" , 1L))
+        assertThatThrownBy(() -> tweetService.deleteTweet("token", 1L))
                 .isInstanceOf(UsernameNotExistsException.class).hasMessage("User with username megha does not exists");
     }
 
     @Test
-    void deleteTweetTest() throws UsernameNotExistsException, TweetNotAuthorizedException, TweetNotFoundException {
+    void deleteTweetTest() throws UsernameNotExistsException, TweetNotFoundException {
         Mockito.when(userHelper.getUsernameFromRequestHeader("token")).thenReturn("hightarun");
         Mockito.when(userRepository.findByUsername("hightarun")).thenReturn(user);
         User loginUser = userRepository.findByUsername(userHelper.getUsernameFromRequestHeader("token"));
 
-        Tweet tweet = new Tweet(1L,"Hello",loginUser,null,null);
+        Tweet tweet = new Tweet(1L, "Hello", loginUser, null, null);
         Mockito.when(tweetRepository.findById(1L)).thenReturn(Optional.of(tweet));
 
-        assertThat(tweetService.deleteTweet("token" , 1L)).isNotNull();
+        assertThat(tweetService.deleteTweet("token", 1L)).isNotNull();
     }
 
     @Test
-    void getAllTweets(){
+    void getAllTweets() {
         Mockito.when(userHelper.getUsernameFromRequestHeader("token")).thenReturn("hightarun");
         Mockito.when(userRepository.findByUsername("hightarun")).thenReturn(user);
         User loginUser = userRepository.findByUsername(userHelper.getUsernameFromRequestHeader("token"));
-        Tweet tweet = new Tweet(1L,"Hello",loginUser,null,null);
+        Tweet tweet = new Tweet(1L, "Hello", loginUser, null, null);
 
-        List<Tweet> tweets= new ArrayList<>();
+        List<Tweet> tweets = new ArrayList<>();
         tweets.add(tweet);
         Mockito.when(tweetRepository.findAll()).thenReturn(tweets);
         assertThat(tweetService.getAllTweet()).isNotNull();
@@ -126,18 +124,19 @@ public class TweetServiceTest {
 
 
     @Test
-    void getAllTweetsUserException(){
+    void getAllTweetsUserException() {
         Mockito.when(tweetRepository.findTweetsByUser(1L)).thenReturn(null);
-        assertThatThrownBy(()->tweetService.getAllTweetsUser("megha"))
+        assertThatThrownBy(() -> tweetService.getAllTweetsUser("megha"))
                 .isInstanceOf(UsernameNotFoundException.class).hasMessage("User with username megha does not exists");
     }
+
     @Test
-    void getAllTweetsUser(){
+    void getAllTweetsUser() {
         Mockito.when(userHelper.getUsernameFromRequestHeader("token")).thenReturn("hightarun");
         Mockito.when(userRepository.findByUsername("hightarun")).thenReturn(user);
         User loginUser = userRepository.findByUsername(userHelper.getUsernameFromRequestHeader("token"));
-        Tweet tweet = new Tweet(1L,"Hello",loginUser,null,null);
-        List<Tweet> tweets= new ArrayList<>();
+        Tweet tweet = new Tweet(1L, "Hello", loginUser, null, null);
+        List<Tweet> tweets = new ArrayList<>();
         tweets.add(tweet);
         Mockito.when(tweetRepository.findTweetsByUser(1L)).thenReturn(tweets);
         assertThat(tweetService.getAllTweetsUser("hightarun"));

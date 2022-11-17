@@ -1,7 +1,6 @@
 package com.tweetapp.tweets.service.tweet;
 
 import com.tweetapp.tweets.exception.authentication.UsernameNotExistsException;
-import com.tweetapp.tweets.exception.tweet.TweetNotAuthorizedException;
 import com.tweetapp.tweets.exception.tweet.TweetNotFoundException;
 import com.tweetapp.tweets.model.authentication.User;
 import com.tweetapp.tweets.model.comment.Comment;
@@ -16,11 +15,9 @@ import com.tweetapp.tweets.repository.UserRepository;
 import com.tweetapp.tweets.util.DtoConverter;
 import com.tweetapp.tweets.util.UserHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,7 +53,7 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public String updateTweets(TweetRequest tweetRequest, String token, Long id) throws UsernameNotExistsException, TweetNotFoundException, TweetNotAuthorizedException {
+    public String updateTweets(TweetRequest tweetRequest, String token, Long id) throws UsernameNotExistsException, TweetNotFoundException {
         String userFromToken = userHelper.getUsernameFromRequestHeader(token);
         User loggedInUser = userRepository.findByUsername(userFromToken);
         if (loggedInUser == null) {
@@ -64,7 +61,7 @@ public class TweetServiceImpl implements TweetService {
         }
         Tweet updateTweet = tweetRepository.findById(id).orElseThrow(() -> new TweetNotFoundException("Tweet does not exists with id " + id));
         if (updateTweet.getUser() != loggedInUser) {
-            throw new TweetNotAuthorizedException("Not Authorized to change the tweet.");
+            return "Not Authorized to change the tweet.";
         }
         updateTweet.setContent(tweetRequest.getContent());
         tweetRepository.save(updateTweet);
@@ -73,7 +70,7 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public String deleteTweet(String token, Long id) throws UsernameNotExistsException, TweetNotFoundException, TweetNotAuthorizedException {
+    public String deleteTweet(String token, Long id) throws UsernameNotExistsException, TweetNotFoundException {
         String userFromToken = userHelper.getUsernameFromRequestHeader(token);
         User loggedInUser = userRepository.findByUsername(userFromToken);
         if (loggedInUser == null) {
@@ -81,7 +78,7 @@ public class TweetServiceImpl implements TweetService {
         }
         Tweet deleteTweet = tweetRepository.findById(id).orElseThrow(() -> new TweetNotFoundException("Tweet does not exists with id " + id));
         if (deleteTweet.getUser() != loggedInUser) {
-            throw new TweetNotAuthorizedException("Not Authorized to change the tweet.");
+            return "Not Authorized to change the tweet.";
         }
 
         List<Comment> comments = commentRepository.findCommentByTweetId(id);

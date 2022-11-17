@@ -2,7 +2,6 @@ package com.tweetapp.tweets.controller.tweet;
 
 import com.tweetapp.tweets.exception.authentication.AuthorizationException;
 import com.tweetapp.tweets.exception.authentication.UsernameNotExistsException;
-import com.tweetapp.tweets.exception.tweet.TweetNotAuthorizedException;
 import com.tweetapp.tweets.exception.tweet.TweetNotFoundException;
 import com.tweetapp.tweets.model.authentication.User;
 import com.tweetapp.tweets.model.authentication.UserDetailsResponse;
@@ -84,7 +83,7 @@ public class TweetControllerTest {
     }
 
     @Test
-    public void updateTweetTest() throws AuthorizationException, UsernameNotExistsException, TweetNotAuthorizedException, TweetNotFoundException {
+    public void updateTweetTest() throws AuthorizationException, UsernameNotExistsException, TweetNotFoundException {
         TweetRequest tweetRequest = new TweetRequest("Hello World!");
         Tweet tweet = new Tweet(1L, tweetRequest.getContent(), user, new Date(), null);
         Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
@@ -129,7 +128,7 @@ public class TweetControllerTest {
     }
 
     @Test
-    public void deleteTweets() throws AuthorizationException, UsernameNotExistsException, TweetNotAuthorizedException, TweetNotFoundException {
+    public void deleteTweets() throws AuthorizationException, UsernameNotExistsException, TweetNotFoundException {
         TweetRequest tweetRequest = new TweetRequest("Hello World!");
         Tweet tweet = new Tweet(1L, tweetRequest.getContent(), user, new Date(), null);
         Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));

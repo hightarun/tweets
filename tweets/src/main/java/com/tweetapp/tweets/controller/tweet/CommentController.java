@@ -1,7 +1,6 @@
 package com.tweetapp.tweets.controller.tweet;
 
 import com.tweetapp.tweets.exception.authentication.AuthorizationException;
-import com.tweetapp.tweets.exception.comment.CommentActionNotAuthorized;
 import com.tweetapp.tweets.exception.comment.CommentNotFoundException;
 import com.tweetapp.tweets.exception.tweet.TweetNotFoundException;
 import com.tweetapp.tweets.model.comment.CommentRequest;
@@ -38,7 +37,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{username}/reply/{id}")
-    public String deleteComment(@PathVariable("username") String username, @PathVariable("id") Long tweetId, @RequestHeader(value = "Authorization", required = true) String requestTokenHeader) throws AuthorizationException, CommentActionNotAuthorized, CommentNotFoundException {
+    public String deleteComment(@PathVariable("username") String username, @PathVariable("id") Long tweetId, @RequestHeader(value = "Authorization", required = true) String requestTokenHeader) throws AuthorizationException, CommentNotFoundException {
         if (authenticationHelper.authorizeRequest(requestTokenHeader) && userHelper.getUsernameFromRequestHeader(requestTokenHeader).equals(username)) {
             return commentService.deleteComment(tweetId, requestTokenHeader);
         } else {

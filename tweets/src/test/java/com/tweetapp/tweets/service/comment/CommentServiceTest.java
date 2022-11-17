@@ -1,7 +1,5 @@
 package com.tweetapp.tweets.service.comment;
 
-import antlr.Token;
-import com.tweetapp.tweets.exception.comment.CommentActionNotAuthorized;
 import com.tweetapp.tweets.exception.comment.CommentNotFoundException;
 import com.tweetapp.tweets.exception.tweet.TweetNotFoundException;
 import com.tweetapp.tweets.model.authentication.User;
@@ -18,16 +16,10 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest
@@ -74,7 +66,7 @@ public class CommentServiceTest {
     }
 
     @Test
-    void deleteComment() throws CommentActionNotAuthorized, CommentNotFoundException {
+    void deleteComment() throws CommentNotFoundException {
         CommentRequest commentRequest = new CommentRequest("Hi Everyone!");
         Mockito.when(userHelper.getUsernameFromRequestHeader("token")).thenReturn("hightarun");
         Mockito.when(userRepository.findByUsername("hightarun")).thenReturn(user);

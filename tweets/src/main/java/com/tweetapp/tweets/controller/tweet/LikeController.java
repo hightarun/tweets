@@ -1,7 +1,6 @@
 package com.tweetapp.tweets.controller.tweet;
 
 import com.tweetapp.tweets.exception.authentication.AuthorizationException;
-import com.tweetapp.tweets.exception.like.AlreadyLikedException;
 import com.tweetapp.tweets.exception.tweet.TweetNotFoundException;
 import com.tweetapp.tweets.service.like.LikeServiceImpl;
 import com.tweetapp.tweets.util.AuthenticationHelper;
@@ -26,7 +25,7 @@ public class LikeController {
     }
 
     @PostMapping("/{username}/like/{id}")
-    public String addLike(@PathVariable("username") String username, @PathVariable("id") Long tweetId, @RequestHeader(value = "Authorization", required = true) String requestTokenHeader) throws AuthorizationException, TweetNotFoundException, AlreadyLikedException {
+    public String addLike(@PathVariable("username") String username, @PathVariable("id") Long tweetId, @RequestHeader(value = "Authorization", required = true) String requestTokenHeader) throws AuthorizationException, TweetNotFoundException {
         if (authenticationHelper.authorizeRequest(requestTokenHeader) && userHelper.getUsernameFromRequestHeader(requestTokenHeader).equals(username)) {
             return likeService.addLike(tweetId, requestTokenHeader);
         } else {

@@ -1,6 +1,5 @@
 package com.tweetapp.tweets.service.like;
 
-import com.tweetapp.tweets.exception.like.AlreadyLikedException;
 import com.tweetapp.tweets.exception.tweet.TweetNotFoundException;
 import com.tweetapp.tweets.model.authentication.User;
 import com.tweetapp.tweets.model.like.Like;
@@ -58,14 +57,13 @@ public class LikeServiceTest {
     }
 
     @Test
-    void addLikeTest() throws AlreadyLikedException, TweetNotFoundException {
+    void addLikeTest() throws TweetNotFoundException {
         User loginUser = userRepository.findByUsername(userHelper.getUsernameFromRequestHeader("token"));
         Tweet tweet = new Tweet(1L, "Hello World!", user, null, null);
         Like like = new Like();
         like.setId(1L);
         like.setUser(loginUser);
         like.setTweet(tweet);
-
         List<Like> likes = new ArrayList<>();
         likes.add(like);
         Mockito.when(tweetRepository.findById(1L)).thenReturn(Optional.of(tweet));

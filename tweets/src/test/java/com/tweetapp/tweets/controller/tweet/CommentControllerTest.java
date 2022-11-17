@@ -1,8 +1,6 @@
 package com.tweetapp.tweets.controller.tweet;
 
-import com.tweetapp.tweets.controller.authentication.AuthenticationController;
 import com.tweetapp.tweets.exception.authentication.AuthorizationException;
-import com.tweetapp.tweets.exception.comment.CommentActionNotAuthorized;
 import com.tweetapp.tweets.exception.comment.CommentNotFoundException;
 import com.tweetapp.tweets.exception.tweet.TweetNotFoundException;
 import com.tweetapp.tweets.model.authentication.User;
@@ -72,7 +70,7 @@ public class CommentControllerTest {
     }
 
     @Test
-    public void deleteComment() throws AuthorizationException, CommentActionNotAuthorized, CommentNotFoundException {
+    public void deleteComment() throws AuthorizationException, CommentNotFoundException {
         TweetRequest tweetRequest = new TweetRequest("Hello World!");
         Tweet tweet = new Tweet(1L, tweetRequest.getContent(), user, new Date(), null);
         CommentRequest commentRequest = new CommentRequest("test Comment");

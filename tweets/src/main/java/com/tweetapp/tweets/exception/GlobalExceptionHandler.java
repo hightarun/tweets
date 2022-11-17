@@ -1,13 +1,9 @@
 package com.tweetapp.tweets.exception;
 
 import com.tweetapp.tweets.exception.authentication.AuthorizationException;
-import com.tweetapp.tweets.exception.authentication.InvalidResetCodeException;
 import com.tweetapp.tweets.exception.authentication.UsernameAlreadyExistsException;
 import com.tweetapp.tweets.exception.authentication.UsernameNotExistsException;
-import com.tweetapp.tweets.exception.comment.CommentActionNotAuthorized;
 import com.tweetapp.tweets.exception.comment.CommentNotFoundException;
-import com.tweetapp.tweets.exception.like.AlreadyLikedException;
-import com.tweetapp.tweets.exception.tweet.TweetNotAuthorizedException;
 import com.tweetapp.tweets.exception.tweet.TweetNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -93,53 +89,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(TweetNotAuthorizedException.class)
-    public ResponseEntity<Object> handleGlobalException(TweetNotAuthorizedException ex, WebRequest request) {
-        Map<String, String> errorMap = new HashMap<>();
-        errorMap.put(MESSAGE, ex.getMessage());
-        ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);
-        log.error(ex.getMessage());
-        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler(AlreadyLikedException.class)
-    public ResponseEntity<Object> handleGlobalException(AlreadyLikedException ex, WebRequest request) {
-        Map<String, String> errorMap = new HashMap<>();
-        errorMap.put(MESSAGE, ex.getMessage());
-        ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);
-        log.error(ex.getMessage());
-        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
-    }
 
     @ExceptionHandler(CommentNotFoundException.class)
     public ResponseEntity<Object> handleGlobalException(CommentNotFoundException ex, WebRequest request) {
-        Map<String, String> errorMap = new HashMap<>();
-        errorMap.put(MESSAGE, ex.getMessage());
-        ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);
-        log.error(ex.getMessage());
-        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler(CommentActionNotAuthorized.class)
-    public ResponseEntity<Object> handleGlobalException(CommentActionNotAuthorized ex, WebRequest request) {
-        Map<String, String> errorMap = new HashMap<>();
-        errorMap.put(MESSAGE, ex.getMessage());
-        ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);
-        log.error(ex.getMessage());
-        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler(InvalidResetCodeException.class)
-    public ResponseEntity<Object> handleGlobalException(InvalidResetCodeException ex, WebRequest request) {
-        Map<String, String> errorMap = new HashMap<>();
-        errorMap.put(MESSAGE, ex.getMessage());
-        ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);
-        log.error(ex.getMessage());
-        return new ResponseEntity<>(exceptionDetails, HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler(TryCatchException.class)
-    public ResponseEntity<Object> handleGlobalException(TryCatchException ex, WebRequest request) {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put(MESSAGE, ex.getMessage());
         ExceptionDetails exceptionDetails = new ExceptionDetails(LocalDateTime.now(), errorMap);

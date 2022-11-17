@@ -1,8 +1,6 @@
 package com.tweetapp.tweets.service.authentication;
 
 
-import com.tweetapp.tweets.exception.TryCatchException;
-import com.tweetapp.tweets.exception.authentication.InvalidResetCodeException;
 import com.tweetapp.tweets.exception.authentication.UsernameAlreadyExistsException;
 import com.tweetapp.tweets.exception.authentication.UsernameNotExistsException;
 import com.tweetapp.tweets.model.authentication.JwtRegisterRequest;
@@ -12,13 +10,8 @@ import com.tweetapp.tweets.repository.UserRepository;
 import com.tweetapp.tweets.util.DtoConverter;
 import com.tweetapp.tweets.util.EmailSenderService;
 import com.tweetapp.tweets.util.PasswordEncoder;
-import org.assertj.core.api.Assert;
-import org.assertj.core.api.ThrowableAssert;
-import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
-import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,12 +19,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
 import static org.mockito.Mockito.*;
 
@@ -120,9 +111,6 @@ class JwtUserDetailsServiceTest {
         when(repository.findByUsername("hightarun")).thenReturn(u1);
         assertThatThrownBy(() -> service.addUser(jwtRegisterRequest))
                 .isInstanceOf(UsernameAlreadyExistsException.class).hasMessage("Username hightarun already exists.");
-        assertThrows(TryCatchException.class, () -> {
-            throw new TryCatchException("For input string");
-        });
         verify(repository, Mockito.times(1)).findByUsername("hightarun");
     }
 
@@ -178,7 +166,7 @@ class JwtUserDetailsServiceTest {
     }
 
     @Test
-    void forgotPassword() throws TryCatchException, UsernameNotExistsException {
+    void forgotPassword() throws UsernameNotExistsException {
         User user = new User(1L, "Tarun", "Bisht", "tarun@gmail.com", "hightarun", "12345678", "8929409364", null);
         Random random = new Random();
         int number = random.nextInt(999999);
@@ -189,7 +177,7 @@ class JwtUserDetailsServiceTest {
         assertThat(service.forgotPassword("hightarun")).isNotNull();
         verify(repository, Mockito.times(1)).findByUsername("hightarun");
     }
-    
+
     @Test
     void resetPasswordShouldThrowException() {
         User user = new User(1L, "megha", "samant", "megha@gmail.com", "hightarun", "12345678", "8929409364", null);

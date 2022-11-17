@@ -1,8 +1,7 @@
 package com.tweetapp.tweets.controller.tweet;
 
-import com.tweetapp.tweets.controller.authentication.AuthenticationController;
+
 import com.tweetapp.tweets.exception.authentication.AuthorizationException;
-import com.tweetapp.tweets.exception.like.AlreadyLikedException;
 import com.tweetapp.tweets.exception.tweet.TweetNotFoundException;
 import com.tweetapp.tweets.model.authentication.User;
 import com.tweetapp.tweets.model.tweet.Tweet;
@@ -43,7 +42,7 @@ public class LikeControllerTest {
     }
 
     @Test
-    public void addLikeTest() throws AlreadyLikedException, AuthorizationException, TweetNotFoundException {
+    public void addLikeTest() throws AuthorizationException, TweetNotFoundException {
         TweetRequest tweetRequest = new TweetRequest("Hello World!");
         Tweet tweet = new Tweet(1L, tweetRequest.getContent(), user, new Date(), null);
         Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));

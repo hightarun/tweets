@@ -1,6 +1,5 @@
 package com.tweetapp.tweets.service.comment;
 
-import com.tweetapp.tweets.exception.comment.CommentActionNotAuthorized;
 import com.tweetapp.tweets.exception.comment.CommentNotFoundException;
 import com.tweetapp.tweets.exception.tweet.TweetNotFoundException;
 import com.tweetapp.tweets.model.authentication.User;
@@ -47,13 +46,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public String deleteComment(Long commentId, String token) throws CommentNotFoundException, CommentActionNotAuthorized {
+    public String deleteComment(Long commentId, String token) throws CommentNotFoundException {
         User loggedInUser = userRepository.findByUsername(userHelper.getUsernameFromRequestHeader(token));
         Comment commentedTweet = commentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException("Comment not found with id " + commentId));
         User commentUser = userRepository.findById(commentedTweet.getUser().getId()).orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
 
         if (commentUser.getId() != (loggedInUser.getId())) {
-            throw new CommentActionNotAuthorized("Unauthorized to delete the comment");
+            return "Unauthorized to delete the comment";
         }
         commentRepository.delete(commentedTweet);
         log.info("Comment deleted");

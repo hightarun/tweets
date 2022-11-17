@@ -1,18 +1,15 @@
 package com.tweetapp.tweets.service.like;
 
-import com.tweetapp.tweets.exception.like.AlreadyLikedException;
+
 import com.tweetapp.tweets.exception.tweet.TweetNotFoundException;
 import com.tweetapp.tweets.model.authentication.User;
 import com.tweetapp.tweets.model.like.Like;
-import com.tweetapp.tweets.model.like.LikeResponse;
 import com.tweetapp.tweets.model.tweet.Tweet;
-import com.tweetapp.tweets.model.tweet.TweetResponse;
 import com.tweetapp.tweets.repository.LikeRepository;
 import com.tweetapp.tweets.repository.TweetRepository;
 import com.tweetapp.tweets.repository.UserRepository;
 import com.tweetapp.tweets.util.UserHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,13 +31,13 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public String addLike(Long tweetId, String token) throws TweetNotFoundException, AlreadyLikedException {
+    public String addLike(Long tweetId, String token) throws TweetNotFoundException {
         User loggedInUser = userRepository.findByUsername(userHelper.getUsernameFromRequestHeader(token));
         Tweet tweet = tweetRepository.findById(tweetId).orElseThrow(() -> new TweetNotFoundException("Tweet with id " + tweetId + " does not exists"));
         List<Like> likeTweetId = likeRepository.findLikeByTweetId(tweetId);
         for (Like l : likeTweetId) {
             if (l.getUser().getId().equals(loggedInUser.getId())) {
-                throw new AlreadyLikedException("Cannot like twice");
+                return "Cannot like twice";
             }
         }
         Like newLike = new Like();
